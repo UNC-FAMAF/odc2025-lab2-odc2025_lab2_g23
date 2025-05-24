@@ -1,4 +1,9 @@
-
+ .ifndef funciones_s
+.equ funciones_s, 0
+.include "datos.s"
+    //.equ SCREEN_WIDTH, 		640
+	//.equ SCREEN_HEIGH, 		480
+	//.equ BITS_PER_PIXEL,  	32
     // --- Rectángulo verde ---
     mov x1, 1                       // x inicial del rectángulo
     mov x2, 260                        // y inicial del rectángulo
@@ -137,7 +142,7 @@
     movz x10, 0xFFFF, lsl 0
     movk x10, 0x00FF, lsl 16
     bl triangulo_der // o bl triangulo_izq
- /*
+ 
     // --- Camino (trapezoide negro) ---
     mov x1, 120      // x inicial base inferior (centrado: (640-400)/2 = 120)
     mov x2, 470      // y inicial base inferior (abajo)
@@ -147,7 +152,7 @@
     movz x10, 0x0f20, lsl 0
     movk x10, 0x0f20, lsl 16
     bl trapezoide
- */
+ 
     bl edificios
 
 InfLoop:
@@ -441,4 +446,6 @@ fin_trap_centro_col:
     b trap_centro_filas
 fin_trap_centro:
     ret
+
+.endif
 
