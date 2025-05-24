@@ -1,8 +1,11 @@
 .global escena
-
-escena:
-   
-
+.global linea_verde_animada
+.global animar_linea
+.global Cesped
+.global edificios
+.global camino
+.global auto
+edificios:
     // Edificio 1
     mov x1, 50          // x inicial
     mov x2, 140         // y inicial
@@ -30,9 +33,9 @@ escena:
     movk w10, 0x00C0, lsl 16
     bl rectangulo
 
-    
+    ret
 
-
+Cesped:
     // --- Pasto ---
     mov x1, 1                       // x inicial del rectángulo
     mov x2, 260                        // y inicial del rectángulo
@@ -42,6 +45,9 @@ escena:
     movk w10, 0x0042, lsl 16         // Completa el color verde en w10
     bl rectangulo                    // Llama a la subrutina rectángulo
 
+    ret
+
+camino:
      // --  Camino 
     mov x1, 320      // x_centro_arriba
     mov x2, 260      // y_arriba
@@ -81,8 +87,8 @@ escena:
     movz w10, 0xFFFF, lsl 0   // blanco
     movk w10, 0x00FF, lsl 16
     bl trapezoide_centro
-   
-     
+   ret
+auto:  
     // --- Carrocería principal ---
     mov x1, 220         // x inicial
     mov x2, 350         // y inicial
