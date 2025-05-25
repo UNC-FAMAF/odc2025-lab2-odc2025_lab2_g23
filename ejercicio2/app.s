@@ -13,16 +13,32 @@
 
 main:
 	// x0 contiene la direccion base del framebuffer
- 	mov x20, x0	// Guarda la dirección base del framebuffer en x20
+    mov x20, x0	// Guarda la dirección base del framebuffer en x20
 	//---------------- CODE HERE ------------------------------------
-    mov x2, #320
-	mov x3, #240
-	mov x4, #50
-    mov w1, color_sol // Color amarillo (ARGB)
-    bl dibujar_circulo
+    /*mov w23, azul_1
+    bl pintar_cielo
+*/
+   bl pintar_fondo
+
+    /*mov w12, verde
+    bl pintar_piso
+
 
 	movz x10, 0xC7, lsl 16
 	movk x10, 0x1585, lsl 00
+
+	mov x2, #230
+	mov x3, #390
+	mov x4, #10
+    mov w13, celeste // Color de los faroles (ARGB)
+    bl dibujar_circulo
+
+	mov x2, #290
+	mov x3, #390
+	mov x4, #10
+    mov w13, celeste // Color de los faroles (ARGB)
+    bl dibujar_circulo
+*/
 /* 
 	// Ejemplo de uso de gpios
 	mov x9, GPIO_BASE

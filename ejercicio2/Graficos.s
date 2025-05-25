@@ -119,11 +119,42 @@ dibujar_circulo:
         br lr
 
 
+triangulo:
+    sub sp, sp, #16 
+    stur lr, [sp, #8] // Guardo el puntero de retorno en el stack
+    stur x3, [sp] // Guardo x3 en el stack
+    mov w1, w19
+    mov x5, #420//y
+    mov x3, #390//y
+    mov x2, #420 //x
+    mov x4, #450 //x
 
-/* 
+    loop_triangulo: // loop para avanzar en y
+        cmp x3, x5
+        b.gt loop2_triangulo
+        bl linea_horizontal
+        sub x3, x3, #1
+    loop2_triangulo: 
+        add x2,x2, #1
+        cmp x2,x4
+        b.gt end_loop_triangulo
+        sub x5, x5,#1
+        b loop_triangulo
+
+    end_loop_triangulo:
+        ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
+        ldur x3, [sp] // Recupero x3 del stack
+        add sp, sp, #16
+
+        br lr 
+
+
+
+ 
 pintar_cielo: 
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
+    ldr w23, celeste
     mov w1, w23   
     mov x2, 0 
     mov x3, 0 
@@ -148,7 +179,9 @@ pintar_piso:
     mov x3, inicio_piso_y  
     mov x4, final_piso_x  
     mov x5, final_piso_y
-    ldr w1, piso
+    ldr w12, verde
+    mov w1, w12
+    
     bl dibujar_rectangulo 
 
     ldur lr, [sp] // Recupero el puntero de retorno del stack
@@ -178,7 +211,7 @@ pintar_fondo:
     mov x24, SCREEN_WIDTH - 320 // Centro en x, x2
     mov x25, #350  // Centro en y, x3
     mov x26, #40 // Posicion inicial offset x4
-    ldr w27, color_sol
+    ldr w27, amarillo_anaranjado
     mov w1, w27 // Paso el color como parametro
     bl dibujar_sol
 
@@ -188,7 +221,7 @@ pintar_fondo:
     ldur lr, [sp] // Recupero el puntero de retorno del stack
     add sp, sp, #8 
     br lr
-
+/* 
 dibujar_nube:
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]

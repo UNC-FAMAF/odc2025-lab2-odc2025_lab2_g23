@@ -15,61 +15,61 @@ LOAD Graficos.o
 LOAD start.o
                 0x0000000000080000                . = 0x80000
 
-.text           0x0000000000080000    0x90894
+.text           0x0000000000080000    0x909d8
  *(.text.boot)
  .text.boot     0x0000000000080000    0x100c8 start.o
                 0x0000000000080000                _start
  *(.text*)
- .text          0x00000000000900c8      0x198 app.o
-                0x000000000009023c                main
- .text          0x0000000000090260       0x38 datos.o
- .text          0x0000000000090298      0x488 funciones.o
- .text          0x0000000000090720      0x174 Graficos.o
- .text          0x0000000000090894    0x80000 start.o
+ .text          0x00000000000900c8      0x260 app.o
+                0x000000000009031c                main
+ .text          0x0000000000090328       0x10 datos.o
+ .text          0x0000000000090338      0x44c funciones.o
+ .text          0x0000000000090784      0x254 Graficos.o
+ .text          0x00000000000909d8    0x80000 start.o
 
-.iplt           0x0000000000110894        0x0
- .iplt          0x0000000000110894        0x0 start.o
+.iplt           0x00000000001109d8        0x0
+ .iplt          0x00000000001109d8        0x0 start.o
 
-.rela.dyn       0x0000000000110898        0x0
- .rela.iplt     0x0000000000110898        0x0 start.o
+.rela.dyn       0x00000000001109d8        0x0
+ .rela.iplt     0x00000000001109d8        0x0 start.o
  .rela.text.boot
-                0x0000000000110898        0x0 start.o
+                0x00000000001109d8        0x0 start.o
 
-.data           0x0000000000110894        0x0
- .data          0x0000000000110894        0x0 app.o
- .data          0x0000000000110894        0x0 datos.o
- .data          0x0000000000110894        0x0 funciones.o
- .data          0x0000000000110894        0x0 Graficos.o
- .data          0x0000000000110894        0x0 start.o
+.data           0x00000000001109d8        0x0
+ .data          0x00000000001109d8        0x0 app.o
+ .data          0x00000000001109d8        0x0 datos.o
+ .data          0x00000000001109d8        0x0 funciones.o
+ .data          0x00000000001109d8        0x0 Graficos.o
+ .data          0x00000000001109d8        0x0 start.o
 
-.igot.plt       0x0000000000110898        0x0
- .igot.plt      0x0000000000110898        0x0 start.o
+.igot.plt       0x00000000001109d8        0x0
+ .igot.plt      0x00000000001109d8        0x0 start.o
 
-.bss            0x0000000000110894        0x0
+.bss            0x00000000001109d8        0x0
  *(.bss*)
- .bss           0x0000000000110894        0x0 app.o
- .bss           0x0000000000110894        0x0 datos.o
- .bss           0x0000000000110894        0x0 funciones.o
- .bss           0x0000000000110894        0x0 Graficos.o
- .bss           0x0000000000110894        0x0 start.o
+ .bss           0x00000000001109d8        0x0 app.o
+ .bss           0x00000000001109d8        0x0 datos.o
+ .bss           0x00000000001109d8        0x0 funciones.o
+ .bss           0x00000000001109d8        0x0 Graficos.o
+ .bss           0x00000000001109d8        0x0 start.o
 
-.bss            0x0000000000110894        0xc
-                0x00000000001108a0                . = ALIGN (0x10)
- *fill*         0x0000000000110894        0xc 
-                0x00000000001108a0                __bss_start = .
+.bss            0x00000000001109d8        0x8
+                0x00000000001109e0                . = ALIGN (0x10)
+ *fill*         0x00000000001109d8        0x8 
+                0x00000000001109e0                __bss_start = .
  *(.bss .bss.*)
  *(COMMON)
-                0x00000000001108a0                __bss_end = .
-                0x00000000001108a0                _end = .
+                0x00000000001109e0                __bss_end = .
+                0x00000000001109e0                _end = .
                 0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
 OUTPUT(kernel8.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_line     0x0000000000000000      0x2c1
- .debug_line    0x0000000000000000       0x9b app.o
- .debug_line    0x000000000000009b      0x154 funciones.o
- .debug_line    0x00000000000001ef       0x82 Graficos.o
- .debug_line    0x0000000000000271       0x50 start.o
+.debug_line     0x0000000000000000      0x349
+ .debug_line    0x0000000000000000       0xdc app.o
+ .debug_line    0x00000000000000dc      0x154 funciones.o
+ .debug_line    0x0000000000000230       0xc9 Graficos.o
+ .debug_line    0x00000000000002f9       0x50 start.o
 
 .debug_info     0x0000000000000000       0xb8
  .debug_info    0x0000000000000000       0x2e app.o

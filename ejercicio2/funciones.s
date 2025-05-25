@@ -1,4 +1,4 @@
- .ifndef funciones_s
+.ifndef funciones_s
 .equ funciones_s, 0
 .include "datos.s"
     //.equ SCREEN_WIDTH, 		640

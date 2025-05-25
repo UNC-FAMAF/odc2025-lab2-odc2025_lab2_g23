@@ -5,8 +5,8 @@
 
 //DELAY
 
-DELAY : .word 0x5FF5E100
-DELAY2 : .word 0x175F0000
+//DELAY : .word 0x5FF5E100
+//DELAY2 : .word 0x175F0000
 
 //Pantalla
 
@@ -19,7 +19,7 @@ DELAY2 : .word 0x175F0000
 .equ cuadro_y_fn, 410
 
 //
-//azul_1 : .word 0x005b6a
+azul_1 : .word 0x005b6a
 //azul_2 : .word 0x00306a
 //azul_3 : .word 0x000046
 //negro : .word 0x000000
@@ -29,14 +29,14 @@ DELAY2 : .word 0x175F0000
 
 
 	//edificio
-color_edificio : .word 0x96c846
-.equ emp_edificio_x, 400
-.equ emp_edificio_y, 350
-.equ fin_edicifio_x, 455
-.equ fin_edicifio_y, 360
+//color_edificio : .word 0x96c846
+//.equ emp_edificio_x, 400
+//.equ emp_edificio_y, 350
+//.equ fin_edicifio_x, 455
+//.equ fin_edicifio_y, 360
 
 
-//Constantes del auto
+/*/Constantes del auto
 
 .equ inicio_auto_x, 240
 .equ final_auto_x, 400
@@ -78,7 +78,7 @@ color_edificio : .word 0x96c846
     .equ inicio_tr_linea_y, 358
     .equ final_tr_linea_x, 640
     .equ final_tr_linea_y, 362
-
+*/
 //Constantes del piso
 .equ inicio_piso_x, 0
 .equ inicio_piso_y, 360
@@ -86,16 +86,16 @@ color_edificio : .word 0x96c846
 .equ final_piso_y, 480
 
 //Colores
-azul_claro: .word 0x175be4 
-blanco: .word 0xddffdd
-gris: .word 0x606060
-amarillo: .word 0xffff00
-gris_claro: .word 0xa0a0a0    
+//azul_claro: .word 0x175be4 
+//blanco: .word 0xddffdd
+//gris: .word 0x606060
+//amarillo: .word 0xffff00
+//gris_claro: .word 0xa0a0a0    
 celeste: .word 0x8ecbff   
-rojo : .word 0xe81515
+//rojo : .word 0xe81515
 amarillo_anaranjado : .word 0xe6c000
-piso : .word 0xbb87f0
+//piso : .word 0xbb87f0
 verde : .word 0x00994c
-color_tronco : .word 0x007d91
+//color_tronco : .word 0x007d91
 
 .endif
