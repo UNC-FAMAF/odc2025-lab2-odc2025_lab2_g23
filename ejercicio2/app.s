@@ -23,6 +23,8 @@ main:
     movk x10, 0x0042, lsl 16          // Completa el color verde en x10 (w10)
     bl rectangulo                     // Llama a la subrutina rectángulo
     
+    
+
      // --  Camino 
     mov x1, 320      // x_centro_arriba
     mov x2, 260      // y_arriba
@@ -63,7 +65,14 @@ main:
     movk x10, 0x00FF, lsl 16
     bl trapezoide_centro
 
-    
+        // Franja 1
+    mov x1, 385
+    mov x2, 390
+    mov x3, 30
+    mov x4, 10
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
 
     // --- Carrocería principal ---
     mov x1, 220         // x inicial
@@ -152,18 +161,10 @@ main:
     movz x10, 0xFFFF, lsl 0
     movk x10, 0x00FF, lsl 16
     bl triangulo_der // o bl triangulo_izq
- /*
-    // --- Camino (trapezoide negro) ---
-    mov x1, 120      // x inicial base inferior (centrado: (640-400)/2 = 120)
-    mov x2, 470      // y inicial base inferior (abajo)
-    mov x3, 400      // ancho base inferior
-    mov x4, 100      // ancho base superior
-    mov x5, 120      // altura
-    movz x10, 0x0f20, lsl 0
-    movk x10, 0x0f20, lsl 16
-    bl trapezoide
- */
-    //bl edificios
+    
+    
+    
+
 
      
     // =============================================
@@ -195,6 +196,8 @@ fondo_loop0:
     
     // --- Volver a dibujar todos los elementos estáticos ---
     // Rectángulo verde base
+    
+    
     mov x1, 1
     mov x2, 220
     mov x3, 640
@@ -212,7 +215,16 @@ fondo_loop0:
     bl rectangulo
     
 
-    
+     // --  Camino 
+    mov x1, 320      // x_centro_arriba
+    mov x2, 260      // y_arriba
+    mov x3, 100      // ancho_arriba
+    mov x4, 400      // ancho_abajo
+    mov x5, 220      // altura
+    movz x10, 0x8080, lsl 0
+    movk x10, 0x0080, lsl 16
+    bl trapezoide_centro
+
 
   // --- Dibujar líneas animadas ---
     //mov x21,260
@@ -238,15 +250,42 @@ dibujar_lineas:
     cmp x25, 480
     b.lt dibujar_lineas               // si no hemos llegado al fondo, dibujar más
 
-    mov x1, 220
+    //Banquina izq
+    mov x1, 190        // x inicial centrado
+    mov x2, 220        // y inicial (igual que antes)
+    mov x3, 25         // ancho de la patente
+    mov x4, 260         // alto de la patente
+    movz x10, 0x4040, lsl 0
+    movk x10, 0xFF40, lsl 16
+    bl rectangulo
+
+    //Banquina der
+    mov x1, 425        // x inicial centrado
+    mov x2, 220        // y inicial (igual que antes)
+    mov x3, 25         // ancho de la patente
+    mov x4, 260         // alto de la patente
+    movz x10, 0x4040, lsl 0
+    movk x10, 0xFF40, lsl 16
+    bl rectangulo
+
+    //Ruta
+    mov x1, 210
     mov x2, 220
-    mov x3, 200
+    mov x3, 220
     mov x4, 260
     movz x10, 0x3030, lsl 0      // Parte baja: G = 0x30, B = 0x30
     movk x10, 0xFF30, lsl 16     // Parte alta: A = 0xFF, R = 0x30
     bl rectangulo
     
-    
+     //Linea horizonte
+    mov x1, 1        // x inicial centrado
+    mov x2, 217        // y inicial (igual que antes)
+    mov x3, 640         // ancho de la patente
+    mov x4, 3         // alto de la patente
+    movz x24, 0x8B22, lsl 0      
+    movk x24, 0xFF22, lsl 16 
+    bl rectangulo
+
     // --- Carrocería principal ---
     mov x1, 220         // x inicial
     mov x2, 350         // y inicial
@@ -269,7 +308,7 @@ dibujar_lineas:
     mov x1, 230
     mov x2, 390
     mov x3, 30
-    mov x4, 15
+    mov x4, 10
     movz x10, 0x4080, lsl 0
     movk x10, 0x00FF, lsl 16
     bl rectangulo
@@ -278,7 +317,7 @@ dibujar_lineas:
     mov x1, 380
     mov x2, 390
     mov x3, 30
-    mov x4, 15
+    mov x4, 10
     movz x10, 0x4080, lsl 0
     movk x10, 0x00FF, lsl 16
     bl rectangulo
@@ -305,7 +344,7 @@ dibujar_lineas:
     mov x1, 225
     mov x2, 410
     mov x3, 30
-    mov x4, 10
+    mov x4, 15
     movz x10, 0x0000, lsl 0
     movk x10, 0x0000, lsl 16
     bl rectangulo
@@ -314,7 +353,7 @@ dibujar_lineas:
     mov x1, 385
     mov x2, 410
     mov x3, 30
-    mov x4, 10
+    mov x4, 15
     movz x10, 0x0000, lsl 0
     movk x10, 0x0000, lsl 16
     bl rectangulo
@@ -335,6 +374,98 @@ dibujar_lineas:
     movk x10, 0x00FF, lsl 16
     bl triangulo_der // o bl triangulo_izq
 
+    // --- Linea techo ---
+    mov x1, 250
+    mov x2, 317
+    mov x3, 140  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea debajo de vidrio ---
+    mov x1, 220
+    mov x2, 348
+    mov x3, 200  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea de baul ---
+    mov x1, 220
+    mov x2, 368
+    mov x3, 200  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea de baul2 ---
+    mov x1, 220
+    mov x2, 373
+    mov x3, 200  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea de Patente1 ---
+    mov x1, 298
+    mov x2, 383
+    mov x3, 42  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+     // --- Linea de Patente2 ---
+    mov x1, 298
+    mov x2, 403
+    mov x3, 43  //ancho
+    mov x4, 3  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+     // --- Linea de Patente3 ---
+    mov x1, 298
+    mov x2, 383
+    mov x3, 3  //ancho
+    mov x4, 20  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea de Patente4 ---
+    mov x1, 338
+    mov x2, 383
+    mov x3, 3  //ancho
+    mov x4, 20  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    // --- Linea de Luz1 ---
+    mov x1, 338
+    mov x2, 383
+    mov x3, 3  //ancho
+    mov x4, 20  //alto
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    //Paragolpes
+    mov x1, 220        // x inicial centrado
+    mov x2, 410        // y inicial (igual que antes)
+    mov x3, 200         // ancho de la patente
+    mov x4, 3         // alto de la patente
+    movz x10, 0x0000, lsl 0
+    movk x10, 0x0000, lsl 16
+    bl rectangulo
+
+    
+    
 
     // --- Pequeña pausa para controlar velocidad ---
     mov x27, 0x2700000   
