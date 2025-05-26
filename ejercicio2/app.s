@@ -13,7 +13,8 @@
 main:
     mov x20, x0                       // Guarda la dirección base del framebuffer en x20
 
-   
+   /*
+   DIBUJO INICIAL
     // --- Rectángulo verde ---
     mov x1, 1                       // x inicial del rectángulo
     mov x2, 260                        // y inicial del rectángulo
@@ -161,14 +162,10 @@ main:
     movz x10, 0xFFFF, lsl 0
     movk x10, 0x00FF, lsl 16
     bl triangulo_der // o bl triangulo_izq
-    
-    
-    
-
-
+ */
      
     // =============================================
-    // ANIMACIÓN DE LÍNEAS HORIZONTALES
+    // ANIMACIÓN 
     // =============================================
     mov x21, 260                      // y inicial de la primera línea
     mov x22, 42                       // separación entre líneas (píxeles)
