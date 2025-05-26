@@ -209,7 +209,7 @@ pintar_fondo:
     bl pintar_cielo
 
     mov x24, SCREEN_WIDTH - 320 // Centro en x, x2
-    mov x25, #350  // Centro en y, x3
+    mov x25, #250  // Centro en y, x3
     mov x26, #40 // Posicion inicial offset x4
     ldr w27, amarillo_anaranjado
     mov w1, w27 // Paso el color como parametro
@@ -221,7 +221,78 @@ pintar_fondo:
     ldur lr, [sp] // Recupero el puntero de retorno del stack
     add sp, sp, #8 
     br lr
+dibujar_ruta:
+    sub sp, sp, #16
+    stur lr, [sp, #8]
+    stur x3, [sp]
+    ldr w19, gris
+    mov w1,w19
+    mov x3, #479
+    mov x5, #250
+
+    mov x2, #100 
+    mov x4, #540
+
+loop_ruta:
+    cmp x3, x5
+    b.lt end_ruta
+
+ // Dibuja línea horizontal desde x2 hasta x4 en y = x3
+    bl linea_horizontal
+
+    add x2, x2, #1 // x_izq se acerca al centro
+    sub x4, x4, #1 // x_der se acerca al centro
+    sub x3,x3, #1
+    
+    b loop_ruta
+
+end_ruta:
+    ldur lr, [sp, #8]
+    ldur x3, [sp]
+    add sp, sp, #16
+    br lr
+
+
+
+dibujar_lineas_blancas:
+    sub sp,sp, #8
+    stur lr,[sp]
+
+    mov x3, #479
+    mov x5, #350
+    ldr w1, blanco
+    //mov w1, w16
+loop_lineas_blancas:
+    cmp x3, x5 
+    b.lt end_lineas_blancas
+
+    and x7, x3, #0xF // x3 % 16
+    cbnz x7, skip_rect
+//centro de la carretera
+    mov x2, #300 //x incial
+    mov x4, #330 // x final
+
+    mov x6, x3 // y inicial
+    sub x7, x3, #6 // y final
+    
+    mov x3, x7
+    mov x5, x6
+    //mov x5, x3 
+    //sub x3, x3, #16
+    bl dibujar_rectangulo
+    //mov x9, #0 //contador de altura
+skip_rect: 
+    sub x3, x3, #1
+    b loop_lineas_blancas
+
+end_lineas_blancas:
+    ldur lr, [sp]
+    add sp, sp, #8
+    br lr
+
 /* 
+
+
 dibujar_nube:
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]

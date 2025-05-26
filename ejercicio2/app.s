@@ -20,6 +20,10 @@ main:
 */
    bl pintar_fondo
 
+   bl dibujar_ruta
+   
+   bl dibujar_lineas_blancas
+
     /*mov w12, verde
     bl pintar_piso
 

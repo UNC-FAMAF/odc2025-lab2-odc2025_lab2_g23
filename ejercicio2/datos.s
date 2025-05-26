@@ -81,14 +81,14 @@ azul_1 : .word 0x005b6a
 */
 //Constantes del piso
 .equ inicio_piso_x, 0
-.equ inicio_piso_y, 360
+.equ inicio_piso_y, 260
 .equ final_piso_x, 640
 .equ final_piso_y, 480
 
 //Colores
 //azul_claro: .word 0x175be4 
-//blanco: .word 0xddffdd
-//gris: .word 0x606060
+blanco: .word 0xffffff
+gris: .word 0x606060
 //amarillo: .word 0xffff00
 //gris_claro: .word 0xa0a0a0    
 celeste: .word 0x8ecbff   
