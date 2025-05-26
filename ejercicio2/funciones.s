@@ -8,6 +8,7 @@
    
     .global rectangulo
     .global cuadrado
+    .global trapezoide
     .global trapezoide_centro
     .global triangulo_izq
     .global triangulo_der

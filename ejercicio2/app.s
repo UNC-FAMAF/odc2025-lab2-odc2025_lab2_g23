@@ -338,19 +338,19 @@ dibujar_lineas:
     bl rectangulo
 
     // --- Rueda izquierda ---
-    mov x1, 225
-    mov x2, 410
-    mov x3, 30
-    mov x4, 15
+    mov x1, 225      // x incial centrado
+    mov x2, 410      // y inicial
+    mov x3, 30       // ancho de la rueda
+    mov x4, 15       // alto de la rueda
     movz x10, 0x0000, lsl 0
     movk x10, 0x0000, lsl 16
     bl rectangulo
 
     // --- Rueda derecha ---
-    mov x1, 385
-    mov x2, 410
-    mov x3, 30
-    mov x4, 15
+    mov x1, 385     // x incial centrado
+    mov x2, 410     // y inicial
+    mov x3, 30      // ancho de la rueda
+    mov x4, 15      // alto de la rueda
     movz x10, 0x0000, lsl 0
     movk x10, 0x0000, lsl 16
     bl rectangulo
@@ -372,8 +372,8 @@ dibujar_lineas:
     bl triangulo_der // o bl triangulo_izq
 
     // --- Linea techo ---
-    mov x1, 250
-    mov x2, 317
+    mov x1, 250   // x inicial
+    mov x2, 317   // y inicial
     mov x3, 140  //ancho
     mov x4, 3  //alto
     movz x10, 0x0000, lsl 0
@@ -381,8 +381,8 @@ dibujar_lineas:
     bl rectangulo
 
     // --- Linea debajo de vidrio ---
-    mov x1, 220
-    mov x2, 348
+    mov x1, 220  // x inicial 
+    mov x2, 348  // y inicial
     mov x3, 200  //ancho
     mov x4, 3  //alto
     movz x10, 0x0000, lsl 0
@@ -390,8 +390,8 @@ dibujar_lineas:
     bl rectangulo
 
     // --- Linea de baul ---
-    mov x1, 220
-    mov x2, 368
+    mov x1, 220  // x inicial
+    mov x2, 368  // y inicial
     mov x3, 200  //ancho
     mov x4, 3  //alto
     movz x10, 0x0000, lsl 0
@@ -523,6 +523,8 @@ fin_cuadro_col:
 fin_cuadro:
     ret                               // Retorna al main
 
+
+
 // ------------------- SUBRUTINA RECTANGULO -------------------
 rectangulo:
     // x0 = framebuffer base
@@ -560,6 +562,9 @@ fin_rect_col:
 fin_rect:
     ret                               // Retorna al main
 
+
+
+// ------------------- SUBRUTINA TRIÁNGULO 1-------------------
 triangulo_izq:
     // x0 = framebuffer base
     // x1 = x inicial (esquina superior izquierda)
@@ -598,6 +603,8 @@ fin_triang_izq:
     ret
 
 
+
+// ------------------- SUBRUTINA TRIÁNGULO 2-------------------
 triangulo_der:
     // x0 = framebuffer base
     // x1 = x inicial (esquina superior derecha de la base)
@@ -639,6 +646,7 @@ fin_triang_der:
 
 
 
+// ------------------- SUBRUTINA TRAPEZOIDE -------------------
 trapezoide:
     // x0 = framebuffer base
     // x1 = x inicial base inferior (abajo)
@@ -694,37 +702,9 @@ fin_trap_col:
 fin_trap:
     ret
 
-edificios:
-    // Edificio 1
-    mov x1, 50          // x inicial
-    mov x2, 140         // y inicial
-    mov x3, 40          // ancho
-    mov x4, 120         // alto
-    movz x10, 0x4040, lsl 0
-    movk x10, 0x0040, lsl 16
-    bl rectangulo
-
-    // Edificio 2
-    mov x1, 120
-    mov x2, 140
-    mov x3, 60
-    mov x4, 120
-    movz x10, 0x8080, lsl 0
-    movk x10, 0x0080, lsl 16
-    bl rectangulo
-
-    // Edificio 3
-    mov x1, 200
-    mov x2, 140
-    mov x3, 80
-    mov x4, 120
-    movz x10, 0xC0C0, lsl 0
-    movk x10, 0x00C0, lsl 16
-    bl rectangulo
-
-    ret
 
 
+// ------------------- SUBRUTINA TRAPEZOIDE CENTRO -------------------
 trapezoide_centro:
     // x0 = framebuffer base
     // x1 = x_centro_arriba
