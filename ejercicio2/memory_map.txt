@@ -10,92 +10,102 @@ Guión del enlazador y mapa de memoria
 
 LOAD app.o
 LOAD datos.o
+LOAD Figuras.o
 LOAD funciones.o
 LOAD Graficos.o
 LOAD start.o
                 0x0000000000080000                . = 0x80000
 
-.text           0x0000000000080000    0x90b48
+.text           0x0000000000080000    0x9139c
  *(.text.boot)
  .text.boot     0x0000000000080000    0x100c8 start.o
                 0x0000000000080000                _start
  *(.text*)
- .text          0x00000000000900c8      0x314 app.o
-                0x00000000000903c8                main
- .text          0x00000000000903dc       0x18 datos.o
- .text          0x00000000000903f4      0x454 funciones.o
- .text          0x0000000000090848      0x300 Graficos.o
- .text          0x0000000000090b48    0x80000 start.o
+ .text          0x00000000000900c8      0x5b4 app.o
+                0x000000000009065c                main
+ .text          0x000000000009067c       0x30 datos.o
+ .text          0x00000000000906ac      0x594 Figuras.o
+ .text          0x0000000000090c40      0x46c funciones.o
+ .text          0x00000000000910ac      0x2f0 Graficos.o
+ .text          0x000000000009139c    0x80000 start.o
 
-.iplt           0x0000000000110b48        0x0
- .iplt          0x0000000000110b48        0x0 start.o
+.iplt           0x000000000011139c        0x0
+ .iplt          0x000000000011139c        0x0 start.o
 
-.rela.dyn       0x0000000000110b48        0x0
- .rela.iplt     0x0000000000110b48        0x0 start.o
+.rela.dyn       0x00000000001113a0        0x0
+ .rela.iplt     0x00000000001113a0        0x0 start.o
  .rela.text.boot
-                0x0000000000110b48        0x0 start.o
+                0x00000000001113a0        0x0 start.o
 
-.data           0x0000000000110b48        0x0
- .data          0x0000000000110b48        0x0 app.o
- .data          0x0000000000110b48        0x0 datos.o
- .data          0x0000000000110b48        0x0 funciones.o
- .data          0x0000000000110b48        0x0 Graficos.o
- .data          0x0000000000110b48        0x0 start.o
+.data           0x000000000011139c        0x0
+ .data          0x000000000011139c        0x0 app.o
+ .data          0x000000000011139c        0x0 datos.o
+ .data          0x000000000011139c        0x0 Figuras.o
+ .data          0x000000000011139c        0x0 funciones.o
+ .data          0x000000000011139c        0x0 Graficos.o
+ .data          0x000000000011139c        0x0 start.o
 
-.igot.plt       0x0000000000110b48        0x0
- .igot.plt      0x0000000000110b48        0x0 start.o
+.igot.plt       0x00000000001113a0        0x0
+ .igot.plt      0x00000000001113a0        0x0 start.o
 
-.bss            0x0000000000110b48        0x0
+.bss            0x000000000011139c        0x0
  *(.bss*)
- .bss           0x0000000000110b48        0x0 app.o
- .bss           0x0000000000110b48        0x0 datos.o
- .bss           0x0000000000110b48        0x0 funciones.o
- .bss           0x0000000000110b48        0x0 Graficos.o
- .bss           0x0000000000110b48        0x0 start.o
+ .bss           0x000000000011139c        0x0 app.o
+ .bss           0x000000000011139c        0x0 datos.o
+ .bss           0x000000000011139c        0x0 Figuras.o
+ .bss           0x000000000011139c        0x0 funciones.o
+ .bss           0x000000000011139c        0x0 Graficos.o
+ .bss           0x000000000011139c        0x0 start.o
 
-.bss            0x0000000000110b48        0x8
-                0x0000000000110b50                . = ALIGN (0x10)
- *fill*         0x0000000000110b48        0x8 
-                0x0000000000110b50                __bss_start = .
+.bss            0x000000000011139c        0x4
+                0x00000000001113a0                . = ALIGN (0x10)
+ *fill*         0x000000000011139c        0x4 
+                0x00000000001113a0                __bss_start = .
  *(.bss .bss.*)
  *(COMMON)
-                0x0000000000110b50                __bss_end = .
-                0x0000000000110b50                _end = .
+                0x00000000001113a0                __bss_end = .
+                0x00000000001113a0                _end = .
                 0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
 OUTPUT(kernel8.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_line     0x0000000000000000      0x39d
- .debug_line    0x0000000000000000      0x107 app.o
- .debug_line    0x0000000000000107      0x154 funciones.o
- .debug_line    0x000000000000025b       0xf2 Graficos.o
- .debug_line    0x000000000000034d       0x50 start.o
+.debug_line     0x0000000000000000      0x5ee
+ .debug_line    0x0000000000000000      0x1bb app.o
+ .debug_line    0x00000000000001bb      0x1a5 Figuras.o
+ .debug_line    0x0000000000000360      0x154 funciones.o
+ .debug_line    0x00000000000004b4       0xea Graficos.o
+ .debug_line    0x000000000000059e       0x50 start.o
 
-.debug_info     0x0000000000000000       0xb8
+.debug_info     0x0000000000000000       0xe6
  .debug_info    0x0000000000000000       0x2e app.o
- .debug_info    0x000000000000002e       0x2e funciones.o
- .debug_info    0x000000000000005c       0x2e Graficos.o
- .debug_info    0x000000000000008a       0x2e start.o
+ .debug_info    0x000000000000002e       0x2e Figuras.o
+ .debug_info    0x000000000000005c       0x2e funciones.o
+ .debug_info    0x000000000000008a       0x2e Graficos.o
+ .debug_info    0x00000000000000b8       0x2e start.o
 
-.debug_abbrev   0x0000000000000000       0x50
+.debug_abbrev   0x0000000000000000       0x64
  .debug_abbrev  0x0000000000000000       0x14 app.o
- .debug_abbrev  0x0000000000000014       0x14 funciones.o
- .debug_abbrev  0x0000000000000028       0x14 Graficos.o
- .debug_abbrev  0x000000000000003c       0x14 start.o
+ .debug_abbrev  0x0000000000000014       0x14 Figuras.o
+ .debug_abbrev  0x0000000000000028       0x14 funciones.o
+ .debug_abbrev  0x000000000000003c       0x14 Graficos.o
+ .debug_abbrev  0x0000000000000050       0x14 start.o
 
-.debug_aranges  0x0000000000000000       0xc0
+.debug_aranges  0x0000000000000000       0xf0
  .debug_aranges
                 0x0000000000000000       0x30 app.o
  .debug_aranges
-                0x0000000000000030       0x30 funciones.o
+                0x0000000000000030       0x30 Figuras.o
  .debug_aranges
-                0x0000000000000060       0x30 Graficos.o
+                0x0000000000000060       0x30 funciones.o
  .debug_aranges
-                0x0000000000000090       0x30 start.o
+                0x0000000000000090       0x30 Graficos.o
+ .debug_aranges
+                0x00000000000000c0       0x30 start.o
 
 .debug_str      0x0000000000000000       0x71
  .debug_str     0x0000000000000000       0x71 app.o
                                          0x5d (tamaño antes de la relajación)
+ .debug_str     0x0000000000000071       0x5d Figuras.o
  .debug_str     0x0000000000000071       0x5e funciones.o
  .debug_str     0x0000000000000071       0x5d Graficos.o
  .debug_str     0x0000000000000071       0x5a start.o

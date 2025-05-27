@@ -124,22 +124,23 @@ triangulo:
     stur lr, [sp, #8] // Guardo el puntero de retorno en el stack
     stur x3, [sp] // Guardo x3 en el stack
     mov w1, w19
-    mov x5, #420//y
-    mov x3, #390//y
-    mov x2, #420 //x
-    mov x4, #450 //x
+
 
     loop_triangulo: // loop para avanzar en y
         cmp x3, x5
-        b.gt loop2_triangulo
+        b.lt end_loop_triangulo
+
         bl linea_horizontal
+        add x2, x2, #1
+        sub x4, x4, #1
         sub x3, x3, #1
-    loop2_triangulo: 
-        add x2,x2, #1
-        cmp x2,x4
-        b.gt end_loop_triangulo
-        sub x5, x5,#1
         b loop_triangulo
+    //loop2_triangulo: 
+      //  add x2,x2, #1
+        //cmp x2,x4
+        //b.gt end_loop_triangulo
+        //sub x5, x5,#1
+        //b loop_triangulo
 
     end_loop_triangulo:
         ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
@@ -154,7 +155,7 @@ triangulo:
 pintar_cielo: 
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
-    ldr w23, celeste
+    ldr w23, morado
     mov w1, w23   
     mov x2, 0 
     mov x3, 0 
@@ -179,7 +180,7 @@ pintar_piso:
     mov x3, inicio_piso_y  
     mov x4, final_piso_x  
     mov x5, final_piso_y
-    ldr w12, verde
+    ldr w12, morado_oscuro
     mov w1, w12
     
     bl dibujar_rectangulo 
@@ -251,46 +252,7 @@ end_ruta:
     ldur x3, [sp]
     add sp, sp, #16
     br lr
-
-
-
-dibujar_lineas_blancas:
-    sub sp,sp, #8
-    stur lr,[sp]
-
-    mov x3, #479
-    mov x5, #350
-    ldr w1, blanco
-    //mov w1, w16
-loop_lineas_blancas:
-    cmp x3, x5 
-    b.lt end_lineas_blancas
-
-    and x7, x3, #0xF // x3 % 16
-    cbnz x7, skip_rect
-//centro de la carretera
-    mov x2, #300 //x incial
-    mov x4, #330 // x final
-
-    mov x6, x3 // y inicial
-    sub x7, x3, #6 // y final
-    
-    mov x3, x7
-    mov x5, x6
-    //mov x5, x3 
-    //sub x3, x3, #16
-    bl dibujar_rectangulo
-    //mov x9, #0 //contador de altura
-skip_rect: 
-    sub x3, x3, #1
-    b loop_lineas_blancas
-
-end_lineas_blancas:
-    ldur lr, [sp]
-    add sp, sp, #8
-    br lr
-
-/* 
+ 
 
 
 dibujar_nube:
@@ -316,7 +278,7 @@ dibujar_nube:
     
 
     loop1: bl loop1
-    */
+    
 
 .endif
 
