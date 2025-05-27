@@ -6,196 +6,40 @@
 .equ GPIO_GPFSEL0,   0x00
 .equ GPIO_GPLEV0,    0x34
 
-.extern rectangulo
-.extern auto 
-.extern edificios
+
 .globl main
 
+.globl main
 main:
-    mov x20, x0                       // Guarda la dirección base del framebuffer en x20
+    mov x20, x0       // dirección framebuffer
 
-   /*
-   DIBUJO INICIAL
-    // --- Rectángulo verde ---
-    mov x1, 1                       // x inicial del rectángulo
-    mov x2, 260                        // y inicial del rectángulo
-    mov x3, 640                      // ancho del rectángulo
-    mov x4, 220                        // alto del rectángulo
-    movz x10, 0xC040, lsl 0          // Carga parte baja del color verde en x10
-    movk x10, 0x0042, lsl 16          // Completa el color verde en x10 (w10)
-    bl rectangulo                     // Llama a la subrutina rectángulo
-    
-    
+    // Configuración inicial
+    mov x21, 250      // offset líneas horizontales
+    mov x30, 240      // offset cuadrados
+    mov x22, 50       // separación entre cuadrados
+    mov x23, 10       // lado del cuadrado
+    movz x25, 0xFFFF, lsl 0
+    movk x25, 0x00FF, lsl 16  // blanco
 
-     // --  Camino 
-    mov x1, 320      // x_centro_arriba
-    mov x2, 260      // y_arriba
-    mov x3, 100      // ancho_arriba
-    mov x4, 400      // ancho_abajo
-    mov x5, 220      // altura
-    movz x10, 0x8080, lsl 0
-    movk x10, 0x0080, lsl 16
-    bl trapezoide_centro
-
-     // --  linea 
-    mov x1, 320      // x_centro_arriba (igual que el camino)
-    mov x2, 260      // y_arriba (igual que el camino)
-    mov x3, 12      // ancho_arriba (proporcional: 100/5)
-    mov x4, 24       // ancho_abajo (proporcional: 400/5)
-    mov x5, 20       // altura (proporcional: 220/5)
-    movz x10, 0xFFFF, lsl 0   // blanco
-    movk x10, 0x00FF, lsl 16
-    bl trapezoide_centro
-    
-     // --  linea 2
-    mov x1, 320      // x_centro_arriba (igual que el camino)
-    mov x2, 300      // y_arriba (igual que el camino)
-    mov x3, 16      // ancho_arriba (proporcional: 100/5)
-    mov x4, 24       // ancho_abajo (proporcional: 400/5)
-    mov x5, 20       // altura (proporcional: 220/5)
-    movz x10, 0xFFFF, lsl 0   // blanco
-    movk x10, 0x00FF, lsl 16
-    bl trapezoide_centro
-
-    // -- Linea 3
-    mov x1, 320      // x_centro_arriba (igual que el camino)
-    mov x2, 420      // y_arriba (igual que el camino)
-    mov x3, 20      // ancho_arriba (proporcional: 100/5)
-    mov x4, 33       // ancho_abajo (proporcional: 400/5)
-    mov x5, 30       // altura (proporcional: 220/5)
-    movz x10, 0xFFFF, lsl 0   // blanco
-    movk x10, 0x00FF, lsl 16
-    bl trapezoide_centro
-
-        // Franja 1
-    mov x1, 385
-    mov x2, 390
-    mov x3, 30
-    mov x4, 10
-    movz x10, 0x0000, lsl 0
-    movk x10, 0x0000, lsl 16
-    bl rectangulo
-
-    // --- Carrocería principal ---
-    mov x1, 220         // x inicial
-    mov x2, 350         // y inicial
-    mov x3, 200         // ancho
-    mov x4, 60          // alto
-    movz x10, 0x00A0, lsl 0
-    movk x10, 0x0070, lsl 16
-    bl rectangulo
-
-    // --- Vidrio trasero ---
-    mov x1, 250
-    mov x2, 320
-    mov x3, 140
-    mov x4, 30
-    movz x10, 0xE0FF, lsl 0
-    movk x10, 0x00A0, lsl 16
-    bl rectangulo
-
-    // --- Luces traseras (izquierda) ---
-    mov x1, 230
-    mov x2, 390
-    mov x3, 30
-    mov x4, 15
-    movz x10, 0x4080, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl rectangulo
-
-    // --- Luces traseras (derecha) ---
-    mov x1, 380
-    mov x2, 390
-    mov x3, 30
-    mov x4, 15
-    movz x10, 0x4080, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl rectangulo
-
-    // --- Patente (blanco) centrada ---
-    mov x1, 300        // x inicial centrado
-    mov x2, 385        // y inicial (igual que antes)
-    mov x3, 40         // ancho de la patente
-    mov x4, 20         // alto de la patente
-    movz x10, 0xFFFF, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl rectangulo
-
-    //Linea que cruza la carroceria 
-    mov x1, 220        // x inicial centrado
-    mov x2, 370        // y inicial (igual que antes)
-    mov x3, 200         // ancho de la patente
-    mov x4, 5         // alto de la patente
-    movz x10, 0xFFFF, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl rectangulo
-
-    // --- Rueda izquierda ---
-    mov x1, 225
-    mov x2, 410
-    mov x3, 30
-    mov x4, 10
-    movz x10, 0x0000, lsl 0
-    movk x10, 0x0000, lsl 16
-    bl rectangulo
-
-    // --- Rueda derecha ---
-    mov x1, 385
-    mov x2, 410
-    mov x3, 30
-    mov x4, 10
-    movz x10, 0x0000, lsl 0
-    movk x10, 0x0000, lsl 16
-    bl rectangulo
-
-    //-- Triangulo izquierdo 
-    mov x1, 390    // x inicial
-    mov x2, 320      // y inicial
-    mov x3, 30       // base/altura
-    movz x10, 0xFFFF, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl triangulo_izq // o bl triangulo_der
-
-    // -- Triangulo derecho
-    mov x1, 220     // x inicial 
-    mov x2, 320      // y inicial 
-    mov x3, 30       // base/altura
-    movz x10, 0xFFFF, lsl 0
-    movk x10, 0x00FF, lsl 16
-    bl triangulo_der // o bl triangulo_izq
- */
-     
-    // =============================================
-    // ANIMACIÓN 
-    // =============================================
-    mov x21, 260                      // y inicial de la primera línea
-    mov x22, 42                       // separación entre líneas (píxeles)
-    mov x23, 5                        // grosor de cada línea (píxeles)
-    mov x24, 0xFFFF                   // color blanco (parte baja)
-    movk x24, 0x00FF, lsl 16          // color blanco (parte alta)
-    
-    
 animacion_loop:
-    // --- Redibujar fondo (para "limpiar" las líneas anteriores) ---
-    mov x0, x20                       // dirección base del framebuffer
-    movz x10, 0xC7, lsl 16            // color de fondo rosa
-    movk x10, 0x1585, lsl 00
-    mov x2, SCREEN_HEIGH
-fondo_loop1:
-    mov x1, SCREEN_WIDTH
-fondo_loop0:
-    stur w10,[x0]
-    add x0,x0,4
-    sub x1,x1,1
-    cbnz x1,fondo_loop0
-    sub x2,x2,1
-    cbnz x2,fondo_loop1
+    // 🧽 Borrar cuadrados anteriores
+    mov x26, 0
+    mov x27, x21
+borrar_loop:
+    mov x0, x20
+    mov x1, 320 - 5
+    mov x2, x27
+    mov x9, x23
+    movz x10, 0x3030, lsl 0         // gris ruta
+    movk x10, 0xFF30, lsl 16
+    bl cuadrado
+
+    add x27, x27, x22
+    cmp x27, 480
+    b.lt borrar_loop
 
     
-    // --- Volver a dibujar todos los elementos estáticos ---
-    // Rectángulo verde base
-    
-    
+    //  Fondo base (verde)
     mov x1, 1
     mov x2, 220
     mov x3, 640
@@ -203,80 +47,269 @@ fondo_loop0:
     movz x10, 0xC040, lsl 0
     movk x10, 0x0042, lsl 16
     bl rectangulo
+
+
+    // Columnas
+    mov x1, 130
+    mov x2, 40
+    mov x3, 10
+    mov x4, 180
+    movz x10, 0x8080, lsl 0
+    movk x10, 0x8080, lsl 16
+    bl rectangulo
+    mov x1, 500
+    bl rectangulo
+
+    // Cartel
+    mov x1, 140
+    mov x2, 40
+    mov x3, 360
+    mov x4, 90
+    movz x10, 0x7A3D, lsl 0      
+    movk x10, 0xFF00, lsl 16 
+    bl rectangulo
+// INICIO O
+    
+    mov x1, 150
+    mov x2, 60
+    mov x3, 50
+    mov x4, 5
+    movz x10, 0xFFFF, lsl 0      
+    movk x10, 0xFFFF, lsl 16 
+    bl rectangulo
+
      
-    mov x1, 220
-    mov x2, 220
-    mov x3, 200
-    mov x4, 260
-    movz x10, 0x3030, lsl 0      // Parte baja: G = 0x30, B = 0x30
-    movk x10, 0xFF30, lsl 16     // Parte alta: A = 0xFF, R = 0x30
-    bl rectangulo
-    
-
-    
-
-    
-
-  // --- Dibujar líneas animadas ---
-    //mov x21,260
-    mov x25, x21                      // y actual = posición inicial
-    mov x26, 0                        // contador de líneas
-
-dibujar_lineas:
-    // Dibujar una línea horizontal en y=x25
-    mov x1, 0                         // x inicial (0 = borde izquierdo)
-    mov x2, x25                       // y actual
-    mov x3, SCREEN_WIDTH              // ancho (toda la pantalla)
-    mov x4, x23                       // grosor
-    movz x24, 0x8B22, lsl 0      // Parte baja: G = 8B (139), B = 22 (34)
-    movk x24, 0xFF22, lsl 16     // Parte alta: A = FF (255), R = 22 (34)
-    mov x10, x24                      // color
+    mov x2, 100 
     bl rectangulo
 
-    // Calcular siguiente posición y
-    add x25, x25, x22                 // y += separación
-    add x26, x26, 1                   // incrementar contador
-    
-    // Verificar si hemos pasado el fondo de la pantalla
-    cmp x25, 480
-    b.lt dibujar_lineas               // si no hemos llegado al fondo, dibujar más
-
-    //Banquina izq
-    mov x1, 190        // x inicial centrado
-    mov x2, 220        // y inicial (igual que antes)
-    mov x3, 25         // ancho de la patente
-    mov x4, 260         // alto de la patente
-    movz x10, 0x4040, lsl 0
-    movk x10, 0xFF40, lsl 16
+     
+    mov x1, 150
+    mov x2, 60
+    mov x3, 5
+    mov x4, 40
     bl rectangulo
 
-    //Banquina der
-    mov x1, 425        // x inicial centrado
-    mov x2, 220        // y inicial (igual que antes)
-    mov x3, 25         // ancho de la patente
-    mov x4, 260         // alto de la patente
-    movz x10, 0x4040, lsl 0
-    movk x10, 0xFF40, lsl 16
+    mov x1, 195
+    bl rectangulo
+//Fin O
+
+//Inicio D
+    mov x1, 215
+    mov x4, 45
     bl rectangulo
 
-    //Ruta
+    mov x1, 265
+    mov x4, 45
+    bl rectangulo
+
     mov x1, 210
-    mov x2, 220
-    mov x3, 220
-    mov x4, 260
-    movz x10, 0x3030, lsl 0      // Parte baja: G = 0x30, B = 0x30
-    movk x10, 0xFF30, lsl 16     // Parte alta: A = 0xFF, R = 0x30
-    bl rectangulo
-    
-     //Linea horizonte
-    mov x1, 1        // x inicial centrado
-    mov x2, 217        // y inicial (igual que antes)
-    mov x3, 640         // ancho de la patente
-    mov x4, 3         // alto de la patente
-    movz x24, 0x8B22, lsl 0      
-    movk x24, 0xFF22, lsl 16 
+    mov x2, 60
+    mov x3, 60
+    mov x4, 5
     bl rectangulo
 
+    mov x2, 100
+    bl rectangulo
+//FIN D
+
+//INICIO C
+    mov x1, 285
+    mov x2, 60
+    mov x3, 40
+    mov x4, 5
+    bl rectangulo
+
+    mov x2,100
+    bl rectangulo
+
+    mov x2, 60
+    mov x3, 5
+    mov x4, 40
+    bl rectangulo
+//FIN C
+
+//INICIO 2
+    mov x1, 365
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+     mov x1, 345
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+//FIN 2
+
+//INICIO 0
+
+     mov x1, 375
+    mov x2, 60
+    mov x3, 25
+    mov x4, 5
+    movz x10, 0xFFFF, lsl 0      
+    movk x10, 0xFFFF, lsl 16 
+    bl rectangulo
+
+     
+    mov x2, 100 
+    bl rectangulo
+
+     
+    mov x1, 375
+    mov x2, 60
+    mov x3, 5
+    mov x4, 45
+    bl rectangulo
+
+    mov x1, 400
+    bl rectangulo
+
+    //FIN 0
+
+    
+//INICIO 2
+    mov x1, 430
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+     mov x1, 410
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+//FIN 2
+
+//INICIO 5
+
+     mov x1, 440
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 460
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+     mov x1, 440
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 445
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 440
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+//FIN 5
+
+
+    //  Líneas verdes horizontales
+    mov x24, x21
+    mov x19, 42       // separación
+    mov x28, 5        // grosor
+lineas_horizontales:
+    cmp x24, 480
+    b.ge fin_lineas_h
+
+    mov x1, 0
+    mov x2, x24
+    mov x3, 640
+    mov x4, x28
+    movz x10, 0x8B22, lsl 0
+    movk x10, 0xFF22, lsl 16
+    bl rectangulo
+
+    add x24, x24, x19
+    b lineas_horizontales
+fin_lineas_h:
+
+ // Banquinas
+    mov x1, 185
+    mov x2, 210
+    mov x3, 30
+    mov x4, 270
+    movz x10, 0x4040, lsl 0
+    movk x10, 0xFF40, lsl 16
+    bl rectangulo
+    mov x1, 425
+    bl rectangulo
+    //  Ruta central (gris)
+    mov x1, 215
+    mov x2, 210
+    mov x3, 210
+    mov x4, 270
+    movz x10, 0x3030, lsl 0
+    movk x10, 0xFF30, lsl 16
+    bl rectangulo
+
+   
+    // Dibujar nuevos cuadrados
+    mov x26, 0
+    mov x27, x21
+cuadrado_loop:
+    mov x0, x20
+    mov x1, 320 - 5
+    mov x2, x27
+    mov x9, x23
+    mov x10, x25
+    bl cuadrado
+    
+    add x27, x27, x22
+    cmp x27, 480
+    b.lt cuadrado_loop
+    
+    
     // --- Carrocería principal ---
     mov x1, 220         // x inicial
     mov x2, 350         // y inicial
@@ -455,48 +488,28 @@ dibujar_lineas:
     movk x10, 0x0000, lsl 16
     bl rectangulo
 
-    //Columna izquierda
-    mov x1, 130        // x inicial centrado
-    mov x2, 40        // y inicial 
-    mov x3, 10         // ancho 
-    mov x4, 180         // alto 
-    movz x10, 0x8080, lsl 0
-    movk x10, 0x8080, lsl 16
-    bl rectangulo
-
-    //Columna derecha
-    mov x1, 500        // x inicial centrado
-    mov x2, 40        // y inicial (igual que antes)
-    mov x3, 10         
-    mov x4, 180        
-    movz x10, 0x8080, lsl 0
-    movk x10, 0x8080, lsl 16
-    bl rectangulo
-    
-    
-
-    // --- Pequeña pausa para controlar velocidad ---
-    mov x27, 0x2700000   
-                   // valor del delay (ajustar para velocidad)
-delay_anim:
-   
-    subs x27, x27, 1
-
-    b.ne delay_anim
-
-    // --- Actualizar posición para siguiente frame ---
-    add x21, x21, 5                  // mover las líneas hacia abajo (1 píxel por frame)
-    
-    // Verificar si hay que reiniciar la posición
+    // Actualizar posiciones
+    add x21, x21, 5
     cmp x21, 260
-    b.lt continuar_anim
-    sub x21, x21, x22                        
+    b.lt skip_reset_lineas
+    sub x21, x21, x22
+skip_reset_lineas:
 
-continuar_anim:
-    b animacion_loop                  // repetir infinitamente
+    add x30, x30, 5
+    cmp x30, 240
+    b.lt skip_reset_cuadros
+    sub x30, x30, x22
+skip_reset_cuadros:
 
-InfLoop:
-    b InfLoop                         // Bucle infinito final (por si acaso)
+    // Delay
+    mov x27, 0x2700000
+delay_loop:
+    subs x27, x27, 1
+    b.ne delay_loop
+
+    b animacion_loop
+
+
 
 // ------------------- SUBRUTINA CUADRADO -------------------
 cuadrado:
@@ -534,45 +547,44 @@ fin_cuadro_col:
 fin_cuadro:
     ret                               // Retorna al main
 
-
- 
-// ------------------- SUBRUTINA RECTANGULO -------------------
+//---------------- SUBRUTINA RECTÁNGULO -------------------
 rectangulo:
     // x0 = framebuffer base
-    // x1 = esquina superior izquierda x
-    // x2 = esquina superior izquierda y
+    // x1 = esquina x
+    // x2 = esquina y
     // x3 = ancho
     // x4 = alto
     // w10 = color
 
-    mov x5, 0                         // x5 = fila actual (Y dentro del rectángulo)
+    mov x5, 0                          // fila actual
+    mov x8, SCREEN_WIDTH              // cachear SCREEN_WIDTH
+
 rect_filas:
-    cmp x5, x4                        // ¿fila >= alto?
-    b.ge fin_rect                     // Si sí, termina el rectángulo
+    cmp x5, x4
+    b.ge fin_rect
 
-    mov x6, 0                         // x6 = columna actual (X dentro del rectángulo)
+    // calcular dirección base de la fila
+    add x6, x2, x5                    // y + fila
+    mul x6, x6, x8                    // y * SCREEN_WIDTH
+    add x6, x6, x1                    // y * SCREEN_WIDTH + x
+    lsl x6, x6, 2                     // *= 4 bytes por pixel
+    add x7, x0, x6                    // dirección base de fila
+
+    mov x9, 0                         // columna actual
 rect_columnas:
-    cmp x6, x3                        // ¿columna >= ancho?
-    b.ge fin_rect_col                 // Si sí, termina la fila
+    cmp x9, x3
+    b.ge fin_rect_col
 
-    add x7, x2, x5                    // x7 = y real (y inicial + fila)
-    mov x8, SCREEN_WIDTH
-    mul x9, x7, x8                    // x9 = (y real) * SCREEN_WIDTH
-    add x9, x9, x1                    // x9 = (y real) * SCREEN_WIDTH + x inicial
-    add x9, x9, x6                    // x9 = ... + columna
-    lsl x9, x9, 2                     // x9 = ... * 4 (bytes por píxel)
-    add x11, x20, x9                  // x11 = dirección final del píxel
+    str w10, [x7, x9, lsl #2]         // escribe color en (x9 * 4) offset
+    add x9, x9, 1
+    b rect_columnas
 
-    stur w10, [x11]                   // Pinta el píxel con el color actual
-
-    add x6, x6, 1                     // Siguiente columna
-    b rect_columnas                   // Repite la fila
 fin_rect_col:
-    add x5, x5, 1                     // Siguiente fila
-    b rect_filas                      // Repite el rectángulo
-fin_rect:
-    ret                               // Retorna al main
+    add x5, x5, 1
+    b rect_filas
 
+fin_rect:
+    ret
 
 
 // ------------------- SUBRUTINA TRIÁNGULO 1-------------------
@@ -767,3 +779,36 @@ fin_trap_centro_col:
 fin_trap_centro:
     ret
 
+
+
+diagonal:
+    // x0 = framebuffer base
+    // x1 = x inicial
+    // x2 = y inicial
+    // x3 = longitud
+    // w10 = color
+
+    mov x4, 0                 // contador de píxeles
+
+diagonal_loop:
+    cmp x4, x3
+    b.ge fin_diagonal
+
+    // Coordenadas del píxel actual
+    add x5, x1, x4            // x = x1 + i
+    add x6, x2, x4            // y = y1 + i
+
+    // Dirección: (y * SCREEN_WIDTH + x) * 4
+    mov x7, SCREEN_WIDTH
+    mul x8, x6, x7
+    add x8, x8, x5
+    lsl x8, x8, 2
+    add x9, x0, x8
+
+    str w10, [x9]             // pintar píxel
+
+    add x4, x4, 1
+    b diagonal_loop
+
+fin_diagonal:
+    ret
