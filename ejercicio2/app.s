@@ -6,6 +6,7 @@
 .equ GPIO_GPFSEL0,   0x00
 .equ GPIO_GPLEV0,    0x34
 
+.extern rectangulo
 .extern auto 
 .extern edificios
 .globl main
@@ -212,16 +213,9 @@ fondo_loop0:
     bl rectangulo
     
 
-     // --  Camino 
-    mov x1, 320      // x_centro_arriba
-    mov x2, 260      // y_arriba
-    mov x3, 100      // ancho_arriba
-    mov x4, 400      // ancho_abajo
-    mov x5, 220      // altura
-    movz x10, 0x8080, lsl 0
-    movk x10, 0x0080, lsl 16
-    bl trapezoide_centro
+    
 
+    
 
   // --- Dibujar líneas animadas ---
     //mov x21,260
@@ -461,6 +455,23 @@ dibujar_lineas:
     movk x10, 0x0000, lsl 16
     bl rectangulo
 
+    //Columna izquierda
+    mov x1, 130        // x inicial centrado
+    mov x2, 40        // y inicial 
+    mov x3, 10         // ancho 
+    mov x4, 180         // alto 
+    movz x10, 0x8080, lsl 0
+    movk x10, 0x8080, lsl 16
+    bl rectangulo
+
+    //Columna derecha
+    mov x1, 500        // x inicial centrado
+    mov x2, 40        // y inicial (igual que antes)
+    mov x3, 10         
+    mov x4, 180        
+    movz x10, 0x8080, lsl 0
+    movk x10, 0x8080, lsl 16
+    bl rectangulo
     
     
 
@@ -524,7 +535,7 @@ fin_cuadro:
     ret                               // Retorna al main
 
 
-
+ 
 // ------------------- SUBRUTINA RECTANGULO -------------------
 rectangulo:
     // x0 = framebuffer base

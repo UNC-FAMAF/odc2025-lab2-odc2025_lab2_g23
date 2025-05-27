@@ -1,3 +1,4 @@
+/*
 .global escena
 .global linea_verde_animada
 .global animar_linea
@@ -179,3 +180,4 @@ auto:
 
 
     ret
+ */
