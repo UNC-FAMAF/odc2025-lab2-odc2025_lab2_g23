@@ -48,61 +48,165 @@ nube:
     add sp, sp, #8 
     br lr
 
+patente:
+    sub sp, sp, #8
+    stur lr, [sp]
 
-dibujar_patente:
+    ldr w1, blanco
 
-    sub sp, sp, #16
-    stur lr, [sp, #8]
-    stur x2, [sp]
-    //ldr w20, blanco
-    //mov w1, w20
-    
-    // Dibujo O
-    mov x2, #50
-    mov x3, #50
-    bl dibujar_O
-   // add x2, x2, #10
+    // Coordenadas base
+    mov x2, #100     // x inicial
+    mov x3, #100     // y inicial
 
-    // Dibujo D
-    
-    mov x2, #70
-    mov x3, #50
-    bl dibujar_D
-   //add x2, x2, #10
+    // Tamaño de letra
+    mov x10, #20     // ancho
+    mov x11, #40     // alto
+    mov x12, #5      // espaciado entre letras
 
-    // Dibujo C
-    mov x2, #90
-    mov x3, #50
-    bl dibujar_C
-    //add x2, x2, #10
+    // ---------------- LETRA O ----------------
+    // Rectángulo hueco
+    mov x4, x2
+    add x5, x2, x10
+    mov x6, x3
+    add x7, x3, x11
 
-    // Dibujo 2
-    mov x2, #110
-    mov x3, #50
-    bl dibujar_2
-    //add x2, x2, #10
+    // Horizontal arriba
+    mov x2, x4
+    mov x3, x6
+    mov x4, x5
+    bl linea_horizontal
 
-    // Dibujo 0
-    mov x2, #130
-    mov x3, #50
-    bl dibujar_O
-    //add x2, x2, #10
+    // Horizontal abajo
+    mov x2, x4
+    mov x3, x7
+    mov x4, x5
+    bl linea_horizontal
 
-    // Dibujo 2
-    mov x2, #150
-    mov x3, #50
-    bl dibujar_2
-    //add x2, x2, #10
+    // Vertical izquierda
+    mov x2, x4
+    mov x3, x6
+    mov x4, x7
+    bl linea_vertical
 
-    // Dibujo 5
-    mov x2, #170
-    mov x3, #50
-    bl dibujar_5
+    // Vertical derecha
+    mov x2, x5
+    mov x3, x6
+    mov x4, x7
+    bl linea_vertical
 
-    ldur x2, [sp]
-    ldur lr, [sp, #8]
-    add sp, sp, #16
+    // ---------------- LETRA D ----------------
+    add x2, x5, x12
+    add x5, x2, x10
+
+    // Vertical izquierda
+    mov x3, x6
+    mov x4, x7
+    bl linea_vertical
+
+    // Horizontal arriba
+    mov x2, x2
+    mov x3, x6
+    mov x4, x5
+    bl linea_horizontal
+
+    // Horizontal abajo
+    mov x3, x7
+    bl linea_horizontal
+
+    // Vertical curva derecha (simulada)
+    mov x2, x5
+    mov x3, x6
+    add x4, x6, #10
+    bl linea_vertical
+    add x3, x6, #30
+    add x4, x6, #40
+    bl linea_vertical
+
+    // ---------------- LETRA C ----------------
+    add x2, x5, x12
+    add x5, x2, x10
+
+    // Horizontal arriba
+    mov x3, x6
+    bl linea_horizontal
+
+    // Horizontal abajo
+    mov x3, x7
+    bl linea_horizontal
+
+    // Vertical izquierda
+    mov x2, x2
+    mov x3, x6
+    mov x4, x7
+    bl linea_vertical
+
+    // ---------------- LETRA 2 ----------------
+    add x2, x5, x12
+    add x5, x2, x10
+
+    // Horizontal arriba
+    mov x3, x6
+    bl linea_horizontal
+
+    // Curva derecha arriba
+    mov x2, x5
+    mov x3, x6
+    add x4, x6, #10
+    bl linea_vertical
+
+    // Línea media
+    mov x2, x2
+    mov x3, x6
+    add x3, x3, #20
+    mov x4, x5
+    bl linea_horizontal
+
+    // Diagonal hacia abajo izquierda (simulada con líneas verticales)
+    mov x2, x2
+    mov x3, x6
+    add x3, x3, #20
+    mov x4, x7
+    bl linea_vertical
+
+    // ---------------- LETRA 5 ----------------
+    add x2, x5, x12
+    add x5, x2, x10
+
+    // Horizontal arriba
+    mov x3, x6
+    bl linea_horizontal
+
+    // Vertical izquierda arriba
+    mov x2, x2
+    mov x3, x6
+    add x4, x6, #20
+    bl linea_vertical
+
+    // Línea media
+    mov x3, x6
+    add x3, x3, #20
+    mov x4, x5
+    bl linea_horizontal
+
+    // Vertical derecha abajo
+    mov x2, x5
+    mov x3, x6
+    add x3, x3, #20
+    mov x4, x7
+    bl linea_vertical
+
+    // Línea abajo
+    mov x2, x2
+    mov x3, x7
+    mov x4, x5
+    bl linea_horizontal
+
+    // ---------------- FIN ----------------
+    ldur lr, [sp]
+    add sp, sp, #8
     br lr
+
+
 
 
     loop: bl loop

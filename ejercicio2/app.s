@@ -18,10 +18,9 @@ main:
    bl dibujar_ruta
    
    bl nube
+   bl patente
    
- // Dibuja 'O'
-    
-    bl dibujar_patente
+  
 
    
 
