@@ -22,7 +22,7 @@ DELAY2 : .word 0x175F0000
 azul_1 : .word 0x005b6a
 
 //negro : .word 0x000000
-
+black : .word 0x000000
    
 //Constantes del piso
 .equ inicio_piso_x, 0

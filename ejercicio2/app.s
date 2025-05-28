@@ -17,8 +17,10 @@ main:
 
    bl dibujar_ruta
    
-   bl nube
+   
+   mov x0, x20 
    bl patente
+   bl nube
    
   
 

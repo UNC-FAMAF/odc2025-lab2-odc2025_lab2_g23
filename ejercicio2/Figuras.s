@@ -52,19 +52,23 @@ patente:
     sub sp, sp, #8
     stur lr, [sp]
 
-    ldr w1, blanco
+    ldr w1, black
 
-    // Coordenadas base
-    mov x2, #100     // x inicial
-    mov x3, #100     // y inicial
+    
+    bl pintar_por_pixel
+
+
+    // Coordenadas base (cerca del centro de la pantalla)
+    mov x2, SCREEN_WIDTH
+    sub x2, x2, #200     // x inicial
+    mov x3, #300         // y inicial
 
     // Tamaño de letra
-    mov x10, #20     // ancho
-    mov x11, #40     // alto
-    mov x12, #5      // espaciado entre letras
+    mov x10, #20         // ancho
+    mov x11, #40         // alto
+    mov x12, #10         // espaciado entre letras
 
     // ---------------- LETRA O ----------------
-    // Rectángulo hueco
     mov x4, x2
     add x5, x2, x10
     mov x6, x3
@@ -77,9 +81,7 @@ patente:
     bl linea_horizontal
 
     // Horizontal abajo
-    mov x2, x4
     mov x3, x7
-    mov x4, x5
     bl linea_horizontal
 
     // Vertical izquierda
@@ -90,8 +92,6 @@ patente:
 
     // Vertical derecha
     mov x2, x5
-    mov x3, x6
-    mov x4, x7
     bl linea_vertical
 
     // ---------------- LETRA D ----------------
@@ -161,7 +161,7 @@ patente:
     mov x4, x5
     bl linea_horizontal
 
-    // Diagonal hacia abajo izquierda (simulada con líneas verticales)
+    // Diagonal hacia abajo izquierda (simulada)
     mov x2, x2
     mov x3, x6
     add x3, x3, #20
@@ -205,6 +205,7 @@ patente:
     ldur lr, [sp]
     add sp, sp, #8
     br lr
+
 
 
 
