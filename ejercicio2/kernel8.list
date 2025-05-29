@@ -16463,7 +16463,7 @@ Disassembly of section .text:
 00000000000900c8 <main>:
    900c8:	aa0003f4 	mov	x20, x0
    900cc:	d2801f55 	mov	x21, #0xfa                  	// #250
-   900d0:	d2801e1e 	mov	x30, #0xf0                  	// #240
+   900d0:	d2801e0f 	mov	x15, #0xf0                  	// #240
    900d4:	d2800656 	mov	x22, #0x32                  	// #50
    900d8:	d2800157 	mov	x23, #0xa                   	// #10
    900dc:	d29ffff9 	mov	x25, #0xffff                	// #65535
@@ -16482,7 +16482,7 @@ Disassembly of section .text:
    90100:	f2bfe60a 	movk	x10, #0xff30, lsl #16
    90104:	94000164 	bl	90694 <cuadrado>
    90108:	8b16037b 	add	x27, x27, x22
-   9010c:	f104b37f 	cmp	x27, #0x12c
+   9010c:	f107837f 	cmp	x27, #0x1e0
    90110:	54fffeeb 	b.lt	900ec <borrar_loop>  // b.tstop
    90114:	d2800021 	mov	x1, #0x1                   	// #1
    90118:	d2801b82 	mov	x2, #0xdc                  	// #220
@@ -16690,7 +16690,7 @@ Disassembly of section .text:
    90428:	aa1903ea 	mov	x10, x25
    9042c:	9400009a 	bl	90694 <cuadrado>
    90430:	8b16037b 	add	x27, x27, x22
-   90434:	f104b37f 	cmp	x27, #0x12c
+   90434:	f107837f 	cmp	x27, #0x1e0
    90438:	54ffff0b 	b.lt	90418 <cuadrado_loop>  // b.tstop
    9043c:	d2801b81 	mov	x1, #0xdc                  	// #220
    90440:	d2802bc2 	mov	x2, #0x15e                 	// #350
@@ -16836,10 +16836,10 @@ Disassembly of section .text:
    90670:	cb1602b5 	sub	x21, x21, x22
 
 0000000000090674 <skip_reset_lineas>:
-   90674:	910017de 	add	x30, x30, #0x5
-   90678:	f103c3df 	cmp	x30, #0xf0
+   90674:	910015ef 	add	x15, x15, #0x5
+   90678:	f103c1ff 	cmp	x15, #0xf0
    9067c:	5400004b 	b.lt	90684 <skip_reset_cuadros>  // b.tstop
-   90680:	cb1603de 	sub	x30, x30, x22
+   90680:	cb1601ef 	sub	x15, x15, x22
 
 0000000000090684 <skip_reset_cuadros>:
    90684:	d2a04e1b 	mov	x27, #0x2700000             	// #40894464

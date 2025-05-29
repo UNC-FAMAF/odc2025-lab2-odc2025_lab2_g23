@@ -7,7 +7,7 @@
 .equ GPIO_GPLEV0,    0x34
 
 
-
+.globl main
 
 .globl main
 main:
@@ -15,12 +15,12 @@ main:
 
     // Configuración inicial
     mov x21, 250      // offset líneas horizontales
-    mov x30, 240      // offset cuadrados
+    mov x15, 240      // offset cuadrados
     mov x22, 50       // separación entre cuadrados
     mov x23, 10       // lado del cuadrado
     movz x25, 0xFFFF, lsl 0
     movk x25, 0x00FF, lsl 16  // blanco
-    
+
     
  
 animacion_loop:
@@ -37,7 +37,7 @@ borrar_loop:
     bl cuadrado
 
     add x27, x27, x22
-    cmp x27, 300
+    cmp x27, 480
     b.lt borrar_loop
 
     //  Fondo base (verde)
@@ -318,7 +318,7 @@ cuadrado_loop:
     bl cuadrado
     
     add x27, x27, x22
-    cmp x27, 300
+    cmp x27, 480
     b.lt cuadrado_loop
     
     
@@ -507,10 +507,10 @@ cuadrado_loop:
     sub x21, x21, x22
 skip_reset_lineas:
 
-    add x30, x30, 5
-    cmp x30, 240
+    add x15, x15, 5
+    cmp x15, 240
     b.lt skip_reset_cuadros
-    sub x30, x30, x22
+    sub x15, x15, x22
 skip_reset_cuadros:
 
     // Delay
