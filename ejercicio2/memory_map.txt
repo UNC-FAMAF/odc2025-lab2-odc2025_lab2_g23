@@ -14,62 +14,63 @@ LOAD funciones.o
 LOAD start.o
                 0x0000000000080000                . = 0x80000
 
-.text           0x0000000000080000    0x90ad0
+.text           0x0000000000080000    0x90aec
  *(.text.boot)
  .text.boot     0x0000000000080000    0x100c8 start.o
                 0x0000000000080000                _start
  *(.text*)
  .text          0x00000000000900c8        0x0 Componentes.o
- .text          0x00000000000900c8      0x7f4 app.o
+ .text          0x00000000000900c8      0x810 app.o
                 0x00000000000900c8                main
- .text          0x00000000000908bc      0x214 funciones.o
-                0x00000000000908c0                cuadrado
-                0x000000000009090c                rectangulo
-                0x0000000000090958                triangulo_izq
-                0x00000000000909a4                triangulo_der
-                0x00000000000909f8                trapezoide
-                0x0000000000090a6c                trapezoide_centro
- .text          0x0000000000090ad0    0x80000 start.o
+ .text          0x00000000000908d8      0x214 funciones.o
+                0x00000000000908dc                cuadrado
+                0x0000000000090928                rectangulo
+                0x0000000000090974                triangulo_izq
+                0x00000000000909c0                triangulo_der
+                0x0000000000090a14                trapezoide
+                0x0000000000090a88                trapezoide_centro
+ .text          0x0000000000090aec    0x80000 start.o
 
-.iplt           0x0000000000110ad0        0x0
- .iplt          0x0000000000110ad0        0x0 start.o
+.iplt           0x0000000000110aec        0x0
+ .iplt          0x0000000000110aec        0x0 start.o
 
-.rela.dyn       0x0000000000110ad0        0x0
- .rela.iplt     0x0000000000110ad0        0x0 start.o
+.rela.dyn       0x0000000000110af0        0x0
+ .rela.iplt     0x0000000000110af0        0x0 start.o
  .rela.text.boot
-                0x0000000000110ad0        0x0 start.o
+                0x0000000000110af0        0x0 start.o
 
-.data           0x0000000000110ad0        0x0
- .data          0x0000000000110ad0        0x0 Componentes.o
- .data          0x0000000000110ad0        0x0 app.o
- .data          0x0000000000110ad0        0x0 funciones.o
- .data          0x0000000000110ad0        0x0 start.o
+.data           0x0000000000110aec        0x0
+ .data          0x0000000000110aec        0x0 Componentes.o
+ .data          0x0000000000110aec        0x0 app.o
+ .data          0x0000000000110aec        0x0 funciones.o
+ .data          0x0000000000110aec        0x0 start.o
 
-.igot.plt       0x0000000000110ad0        0x0
- .igot.plt      0x0000000000110ad0        0x0 start.o
+.igot.plt       0x0000000000110af0        0x0
+ .igot.plt      0x0000000000110af0        0x0 start.o
 
-.bss            0x0000000000110ad0        0x0
+.bss            0x0000000000110aec        0x0
  *(.bss*)
- .bss           0x0000000000110ad0        0x0 Componentes.o
- .bss           0x0000000000110ad0        0x0 app.o
- .bss           0x0000000000110ad0        0x0 funciones.o
- .bss           0x0000000000110ad0        0x0 start.o
+ .bss           0x0000000000110aec        0x0 Componentes.o
+ .bss           0x0000000000110aec        0x0 app.o
+ .bss           0x0000000000110aec        0x0 funciones.o
+ .bss           0x0000000000110aec        0x0 start.o
 
-.bss            0x0000000000110ad0        0x0
-                0x0000000000110ad0                . = ALIGN (0x10)
-                0x0000000000110ad0                __bss_start = .
+.bss            0x0000000000110aec        0x4
+                0x0000000000110af0                . = ALIGN (0x10)
+ *fill*         0x0000000000110aec        0x4 
+                0x0000000000110af0                __bss_start = .
  *(.bss .bss.*)
  *(COMMON)
-                0x0000000000110ad0                __bss_end = .
-                0x0000000000110ad0                _end = .
+                0x0000000000110af0                __bss_end = .
+                0x0000000000110af0                _end = .
                 0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
 OUTPUT(kernel8.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_line     0x0000000000000000      0x35c
- .debug_line    0x0000000000000000      0x240 app.o
- .debug_line    0x0000000000000240       0xcc funciones.o
- .debug_line    0x000000000000030c       0x50 start.o
+.debug_line     0x0000000000000000      0x363
+ .debug_line    0x0000000000000000      0x247 app.o
+ .debug_line    0x0000000000000247       0xcc funciones.o
+ .debug_line    0x0000000000000313       0x50 start.o
 
 .debug_info     0x0000000000000000       0x8a
  .debug_info    0x0000000000000000       0x2e app.o

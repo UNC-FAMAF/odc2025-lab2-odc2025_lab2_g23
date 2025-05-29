@@ -20,7 +20,9 @@ main:
     mov x23, 10       // lado del cuadrado
     movz x25, 0xFFFF, lsl 0
     movk x25, 0x00FF, lsl 16  // blanco
-
+    
+    
+ 
 animacion_loop:
     // 🧽 Borrar cuadrados anteriores
     mov x26, 0
@@ -35,19 +37,45 @@ borrar_loop:
     bl cuadrado
 
     add x27, x27, x22
-    cmp x27, 480
+    cmp x27, 300
     b.lt borrar_loop
 
-    
     //  Fondo base (verde)
     mov x1, 1
     mov x2, 220
-    mov x3, 640
+    mov x3, 185
     mov x4, 260
     movz x10, 0xC040, lsl 0
     movk x10, 0x0042, lsl 16
     bl rectangulo
+    
+    mov x1, 455
+    mov x2, 220
+    mov x3, 185
+    mov x4, 260
+    movz x10, 0xC040, lsl 0
+    movk x10, 0x0042, lsl 16
+ 
+    bl rectangulo
 
+// Banquinas
+    mov x1, 185
+    mov x2, 210
+    mov x3, 30
+    mov x4, 270
+    movz x10, 0x4040, lsl 0
+    movk x10, 0xFF40, lsl 16
+    bl rectangulo
+    mov x1, 425
+    bl rectangulo
+    //  Ruta central (gris)
+    mov x1, 215
+    mov x2, 210
+    mov x3, 210
+    mov x4, 270
+    movz x10, 0x3030, lsl 0
+    movk x10, 0xFF30, lsl 16
+    bl rectangulo
 
     // Columnas
     mov x1, 130
@@ -262,36 +290,20 @@ lineas_horizontales:
     cmp x24, 480
     b.ge fin_lineas_h
 
-    mov x1, 0
+    mov x1, 455
     mov x2, x24
-    mov x3, 640
+    mov x3, 370
     mov x4, x28
     movz x10, 0x8B22, lsl 0
     movk x10, 0xFF22, lsl 16
     bl rectangulo
 
+    
+
     add x24, x24, x19
     b lineas_horizontales
 fin_lineas_h:
 
- // Banquinas
-    mov x1, 185
-    mov x2, 210
-    mov x3, 30
-    mov x4, 270
-    movz x10, 0x4040, lsl 0
-    movk x10, 0xFF40, lsl 16
-    bl rectangulo
-    mov x1, 425
-    bl rectangulo
-    //  Ruta central (gris)
-    mov x1, 215
-    mov x2, 210
-    mov x3, 210
-    mov x4, 270
-    movz x10, 0x3030, lsl 0
-    movk x10, 0xFF30, lsl 16
-    bl rectangulo
 
    
     // Dibujar nuevos cuadrados
@@ -306,7 +318,7 @@ cuadrado_loop:
     bl cuadrado
     
     add x27, x27, x22
-    cmp x27, 480
+    cmp x27, 300
     b.lt cuadrado_loop
     
     
