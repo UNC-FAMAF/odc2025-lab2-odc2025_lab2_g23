@@ -1,10 +1,6 @@
-    .equ SCREEN_WIDTH, 		640
-	.equ SCREEN_HEIGH, 		480
-	.equ BITS_PER_PIXEL,  	32
-
-	.equ GPIO_BASE,      0x3f200000
-	.equ GPIO_GPFSEL0,   0x00
-	.equ GPIO_GPLEV0,    0x34
+   /*  .ifndef funciones_s
+    .equ funciones_s, 0
+    .include "datos.s"
    
     .global rectangulo
     .global cuadrado
@@ -25,28 +21,31 @@ InfLoop:
     // x2 = esquina superior izquierda y
     // x9 = LADO
     // w10 = color
-
+/*
 cuadrado:
-    mov x3, 0                  // x3 = fila actual
+    sub sp, sp, #16
+    stur lr, [sp, #8]
+    stur x3, [sp]         // Guardamos x3 (fila actual)
+
+    mov x3, 0
 cuadro_filas:
-    cmp x3, x9                 // ¿Llegamos al lado?
+    cmp x3, x9
     b.ge fin_cuadro
 
-    mov x4, 0                  // x4 = columna actual
+    mov x4, 0
 cuadro_columnas:
     cmp x4, x9
     b.ge fin_cuadro_col
 
-    // Calcula dirección del pixel actual
-    add x5, x2, x3             // y + fila
+    add x5, x2, x3
     mov x6, SCREEN_WIDTH
-    mul x7, x5, x6             // (y + fila) * ancho pantalla
-    add x7, x7, x1             // + x inicial
-    add x7, x7, x4             // + columna
-    lsl x7, x7, 2              // *4 (32 bits por pixel)
-    add x8, x0, x7             // dirección absoluta
+    mul x7, x5, x6
+    add x7, x7, x1
+    add x7, x7, x4
+    lsl x7, x7, 2
+    add x8, x20, x7
 
-    stur w10, [x8]             // Escribe color
+    stur w10, [x8]
 
     add x4, x4, 1
     b cuadro_columnas
@@ -54,9 +53,14 @@ fin_cuadro_col:
     add x3, x3, 1
     b cuadro_filas
 fin_cuadro:
-    ret
-
+    ldur x3, [sp]
+    ldur lr, [sp, #8]
+    add sp, sp, #16
+    br lr
+*/
 // ------------------- SUBRUTINA RECTANGULO -------------------
+/*
+
 // Dibuja un rectángulo de ancho x3 y alto x4 en (x1, x2) con color w10
     // x0 = framebuffer base
     // x1 = esquina superior izquierda x
@@ -267,4 +271,8 @@ fin_trap_centro_col:
     b trap_centro_filas
 fin_trap_centro:
     ret
+
+.endif
+*/
+
 
