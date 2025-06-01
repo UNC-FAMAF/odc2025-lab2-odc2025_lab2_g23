@@ -38,12 +38,6 @@ linea_vertical:
 
 // ------------------- SUBRUTINA TRIÁNGULO 1-------------------
 triangulo_izq:
-    // x0 = framebuffer base
-    // x1 = x inicial (esquina superior izquierda)
-    // x2 = y inicial (esquina superior izquierda)
-    // x3 = tamaño base/altura (en píxeles)
-    // w10 = color
-
     mov x4, 0                  // fila actual (y)
 triang_izq_filas:
     cmp x4, x3
@@ -78,12 +72,6 @@ fin_triang_izq:
 
 // ------------------- SUBRUTINA TRIÁNGULO 2-------------------
 triangulo_der:
-    // x0 = framebuffer base
-    // x1 = x inicial (esquina superior derecha de la base)
-    // x2 = y inicial (esquina superior)
-    // x3 = tamaño base/altura (en píxeles)
-    // w10 = color
-
     mov x4, 0                  // fila actual (y)
 triang_der_filas:
     cmp x4, x3
@@ -136,12 +124,7 @@ linea_horizontal:
         br lr 
 
 // Dibuja un rectángulo de ancho x3 y alto x4 en (x1, x2) con color w10
-    // x0 = framebuffer base
-    // x1 = esquina superior izquierda x
-    // x2 = esquina superior izquierda y
-    // x3 = ancho
-    // x4 = alto
-    // w10 = color
+    
 rectangulo:
     mov x5, 0                  // x5 = fila actual
 rect_filas:
@@ -191,42 +174,7 @@ dibujar_rectangulo:
         add sp, sp, #16
 
         br lr 
-/*
-cuadrado:
-    // x0 = framebuffer base
-    // x1 = esquina superior izquierda x
-    // x2 = esquina superior izquierda y
-    // x9 = LADO
-    // w10 = color
 
-    mov x3, 0                         // x3 = fila actual (Y dentro del cuadrado)
-cuadro_filas:
-    cmp x3, x9                        // ¿fila >= LADO?
-    b.ge fin_cuadro                   // Si sí, termina el cuadrado
-
-    mov x4, 0                         // x4 = columna actual (X dentro del cuadrado)
-cuadro_columnas:
-    cmp x4, x9                        // ¿columna >= LADO?
-    b.ge fin_cuadro_col               // Si sí, termina la fila
-
-    add x5, x2, x3                    // x5 = y real (y inicial + fila)
-    mov x6, SCREEN_WIDTH
-    mul x7, x5, x6                    // x7 = (y real) * SCREEN_WIDTH
-    add x7, x7, x1                    // x7 = (y real) * SCREEN_WIDTH + x inicial
-    add x7, x7, x4                    // x7 = ... + columna
-    lsl x7, x7, 2                     // x7 = ... * 4 (bytes por píxel)
-    add x8, x20, x7                   // x8 = dirección final del píxel
-
-    stur w10, [x8]                    // Pinta el píxel con el color actual
-
-    add x4, x4, 1                     // Siguiente columna
-    b cuadro_columnas                 // Repite la fila
-fin_cuadro_col:
-    add x3, x3, 1                     // Siguiente fila
-    b cuadro_filas                    // Repite el cuadrado
-fin_cuadro:
-    ret         
-*/
 cuadrado:
     sub sp, sp, #16
     stur lr, [sp, #8]
@@ -465,8 +413,6 @@ dibujar_auto:
  sub sp, sp, #16
  stur lr, [sp, #8]
  stur x21, [sp] // si se modifica
-
-
  
 // --- Carrocería principal ---
     mov x1, 220 // x inicial
@@ -652,150 +598,6 @@ dibujar_auto:
     add sp, sp, #16
     br lr
 
-
-// ------------------- SUBRUTINA TRAPEZOIDE -------------------
-trapezoide:
-    // x0 = framebuffer base
-    // x1 = x inicial base inferior (abajo)
-    // x2 = y inicial base inferior (abajo)
-    // x3 = ancho base inferior
-    // x4 = ancho base superior
-    // x5 = altura (en píxeles)
-    // w10 = color
-
-    mov x6, 0                  // x6 = fila actual (desde abajo hacia arriba)
-trap_filas:
-    cmp x6, x5
-    b.ge fin_trap
-
-    // Interpolación lineal del ancho y x inicial para cada fila
-    // ancho_fila = base_inf + ((base_sup - base_inf) * fila) / altura
-    sub x7, x4, x3             // x7 = base_sup - base_inf
-    mul x8, x7, x6             // x8 = (base_sup - base_inf) * fila
-    sdiv x8, x8, x5            // x8 = ... / altura
-    add x9, x3, x8             // x9 = ancho_fila
-
-    // x inicial de la fila: x_inf + ((x_sup - x_inf) * fila) / altura
-    // Si x_inf == x_sup, esto es constante
-    mov x11, x1                // x inicial base inferior
-    mov x12, x1                // x inicial base superior (ajusta si quieres mover el trapecio)
-    sub x13, x12, x11          // x13 = x_sup - x_inf
-    mul x14, x13, x6           // x14 = (x_sup - x_inf) * fila
-    sdiv x14, x14, x5          // x14 = ... / altura
-    add x15, x11, x14          // x15 = x inicial de la fila
-
-    // Dibuja la fila como un rectángulo de 1 píxel de alto
-    mov x16, 0                 // columna actual
-trap_columnas:
-    cmp x16, x9
-    b.ge fin_trap_col
-
-    // Calcula dirección: ((y_inf - fila) * SCREEN_WIDTH + (x_ini_fila + columna)) * 4
-    sub x17, x2, x6            // y real (de abajo hacia arriba)
-    mov x18, SCREEN_WIDTH
-    mul x19, x17, x18
-    add x19, x19, x15
-    add x19, x19, x16
-    lsl x19, x19, 2
-    add x20, x0, x19
-
-    stur w10, [x20]            // pinta el píxel
-
-    add x16, x16, 1
-    b trap_columnas
-fin_trap_col:
-    add x6, x6, 1
-    b trap_filas
-fin_trap:
-    ret
-
-
-
-// ------------------- SUBRUTINA TRAPEZOIDE CENTRO -------------------
-trapezoide_centro:
-    // x0 = framebuffer base
-    // x1 = x_centro_arriba
-    // x2 = y_arriba
-    // x3 = ancho_arriba
-    // x4 = ancho_abajo
-    // x5 = altura
-    // w10 = color
-
-    mov x6, 0                  // x6 = fila actual (de arriba hacia abajo)
-trap_centro_filas:
-    cmp x6, x5
-    b.ge fin_trap_centro
-
-    // Interpolación lineal del ancho para cada fila
-    // ancho_fila = ancho_arriba + ((ancho_abajo - ancho_arriba) * fila) / altura
-    sub x7, x4, x3             // x7 = ancho_abajo - ancho_arriba
-    mul x8, x7, x6             // x8 = (ancho_abajo - ancho_arriba) * fila
-    sdiv x8, x8, x5            // x8 = ... / altura
-    add x9, x3, x8             // x9 = ancho_fila
-
-    // x inicial de la fila: x_centro_arriba - ancho_arriba/2 + ((x_centro_abajo - x_centro_arriba) * fila) / altura
-    // Pero aquí el centro de abajo es igual al de arriba, así que solo desplazamos para centrar cada fila
-    lsr x17, x9, 1             // x17 = ancho_fila / 2
-    sub x11, x1, x17           // x11 = x inicial de la fila (centrado)
-
-    // Dibuja la fila como un rectángulo de 1 píxel de alto
-    mov x12, 0                 // columna actual
-trap_centro_columnas:
-    cmp x12, x9
-    b.ge fin_trap_centro_col
-
-    // Calcula dirección: ((y_arriba + fila) * SCREEN_WIDTH + (x_ini_fila + columna)) * 4
-    add x13, x2, x6            // y real (de arriba hacia abajo)
-    mov x14, SCREEN_WIDTH
-    mul x15, x13, x14
-    add x15, x15, x11
-    add x15, x15, x12
-    lsl x15, x15, 2
-    add x16, x0, x15
-
-    stur w10, [x16]            // pinta el píxel
-
-    add x12, x12, 1
-    b trap_centro_columnas
-fin_trap_centro_col:
-    add x6, x6, 1
-    b trap_centro_filas
-fin_trap_centro:
-    ret
-
-
-
-diagonal:
-    // x0 = framebuffer base
-    // x1 = x inicial
-    // x2 = y inicial
-    // x3 = longitud
-    // w10 = color
-
-    mov x4, 0                 // contador de píxeles
-
-diagonal_loop:
-    cmp x4, x3
-    b.ge fin_diagonal
-
-    // Coordenadas del píxel actual
-    add x5, x1, x4            // x = x1 + i
-    add x6, x2, x4            // y = y1 + i
-
-    // Dirección: (y * SCREEN_WIDTH + x) * 4
-    mov x7, SCREEN_WIDTH
-    mul x8, x6, x7
-    add x8, x8, x5
-    lsl x8, x8, 2
-    add x9, x0, x8
-
-    str w10, [x9]             // pintar píxel
-
-    add x4, x4, 1
-    b diagonal_loop
-
-fin_diagonal:
-    ret
 
     loop1: bl loop1
     

@@ -1,5 +1,6 @@
 .include "datos.s" 
 .include "Graficos.s"
+.include "funciones.s"
 
 
 
@@ -97,6 +98,14 @@ borrar_loop:
     ldr w15, amarillo_anaranjado
     mov w1, w15 // Paso el color como parametro
     bl dibujar_circulo
+
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #40 // Posicion inicial offset x4
+    ldr w15, amarillo
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+
 // 
  
     // Cartel
@@ -108,191 +117,7 @@ borrar_loop:
     movk x10, 0xFF00, lsl 16 
     bl rectangulo
     
-// INICIO O
-    
-    mov x1, 150
-    mov x2, 60
-    mov x3, 50
-    mov x4, 5
-    movz x10, 0xFFFF, lsl 0      
-    movk x10, 0xFFFF, lsl 16 
-    bl rectangulo
-
-     
-    mov x2, 100 
-    bl rectangulo
-
-     
-    mov x1, 150
-    mov x2, 60
-    mov x3, 5
-    mov x4, 40
-    bl rectangulo
-
-    mov x1, 195
-    bl rectangulo
-//Fin O
-
-//Inicio D
-    mov x1, 215
-    mov x4, 45
-    bl rectangulo
-
-    mov x1, 265
-    mov x4, 45
-    bl rectangulo
-
-    mov x1, 210
-    mov x2, 60
-    mov x3, 60
-    mov x4, 5
-    bl rectangulo
-
-    mov x2, 100
-    bl rectangulo
-//FIN D
-
-//INICIO C
-    mov x1, 285
-    mov x2, 60
-    mov x3, 40
-    mov x4, 5
-    bl rectangulo
-
-    mov x2,100
-    bl rectangulo
-
-    mov x2, 60
-    mov x3, 5
-    mov x4, 40
-    bl rectangulo
-//FIN C
-
-//INICIO 2
-    mov x1, 365
-    mov x2, 60
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-    mov x1, 345
-    mov x2, 80
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-     mov x1, 345
-    mov x2, 80
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 345
-    mov x2, 60
-    mov x3, 20
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 345
-    mov x2, 100
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-//FIN 2
-
-//INICIO 0
-
-     mov x1, 375
-    mov x2, 60
-    mov x3, 25
-    mov x4, 5
-    movz x10, 0xFFFF, lsl 0      
-    movk x10, 0xFFFF, lsl 16 
-    bl rectangulo
-
-     
-    mov x2, 100 
-    bl rectangulo
-
-     
-    mov x1, 375
-    mov x2, 60
-    mov x3, 5
-    mov x4, 45
-    bl rectangulo
-
-    mov x1, 400
-    bl rectangulo
-
-    //FIN 0
-
-    
-//INICIO 2
-    mov x1, 430
-    mov x2, 60
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-    mov x1, 410
-    mov x2, 80
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-     mov x1, 410
-    mov x2, 80
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 410
-    mov x2, 60
-    mov x3, 20
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 410
-    mov x2, 100
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-//FIN 2
-
-//INICIO 5
-
-     mov x1, 440
-    mov x2, 60
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-    mov x1, 460
-    mov x2, 80
-    mov x3, 5
-    mov x4, 20
-    bl rectangulo
-
-     mov x1, 440
-    mov x2, 80
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 445
-    mov x2, 60
-    mov x3, 20
-    mov x4, 5
-    bl rectangulo
-
-    mov x1, 440
-    mov x2, 100
-    mov x3, 25
-    mov x4, 5
-    bl rectangulo
-
-//FIN 5
-
+    bl palabra 
 //  Líneas verdes horizontales
     mov x24, x21
     mov x19, 42       // separación

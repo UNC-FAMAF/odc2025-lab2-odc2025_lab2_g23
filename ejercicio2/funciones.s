@@ -1,195 +1,205 @@
-   /*  .ifndef funciones_s
+    .ifndef funciones_s
     .equ funciones_s, 0
     .include "datos.s"
-   
-    .global rectangulo
-    .global cuadrado
-    .global trapezoide
-    .global trapezoide_centro
-    .global triangulo_izq
-    .global triangulo_der
-    
- 
+    .include "Graficos.s"
 
-InfLoop:
-    b InfLoop                         // Bucle infinito para que el programa no termine
-
-// ------------------- SUBRUTINA CUADRADO -------------------
-// Dibuja un cuadrado de lado x9 en (x1, x2) con color w10
-    // x0 = framebuffer base
-    // x1 = esquina superior izquierda x
-    // x2 = esquina superior izquierda y
-    // x9 = LADO
-    // w10 = color
-/*
-cuadrado:
+palabra:
     sub sp, sp, #16
     stur lr, [sp, #8]
-    stur x3, [sp]         // Guardamos x3 (fila actual)
+    stur x21, [sp] // si se modifica x21, lo guardamos
 
-    mov x3, 0
-cuadro_filas:
-    cmp x3, x9
-    b.ge fin_cuadro
+    // INICIO O
+    mov x1, 150
+    mov x2, 60
+    mov x3, 50
+    mov x4, 5
+    movz x10, 0xFFFF, lsl 0      
+    movk x10, 0xFFFF, lsl 16 
+    bl rectangulo
 
-    mov x4, 0
-cuadro_columnas:
-    cmp x4, x9
-    b.ge fin_cuadro_col
+    mov x2, 100 
+    bl rectangulo
 
-    add x5, x2, x3
-    mov x6, SCREEN_WIDTH
-    mul x7, x5, x6
-    add x7, x7, x1
-    add x7, x7, x4
-    lsl x7, x7, 2
-    add x8, x20, x7
+    mov x1, 150
+    mov x2, 60
+    mov x3, 5
+    mov x4, 40
+    bl rectangulo
 
-    stur w10, [x8]
+    mov x1, 195
+    bl rectangulo
+    // FIN O
 
-    add x4, x4, 1
-    b cuadro_columnas
-fin_cuadro_col:
-    add x3, x3, 1
-    b cuadro_filas
-fin_cuadro:
-    ldur x3, [sp]
+    // INICIO D
+    mov x1, 215
+    mov x4, 45
+    bl rectangulo
+
+    mov x1, 265
+    mov x4, 45
+    bl rectangulo
+
+    mov x1, 210
+    mov x2, 60
+    mov x3, 60
+    mov x4, 5
+    bl rectangulo
+
+    mov x2, 100
+    bl rectangulo
+    // FIN D
+
+    // INICIO C
+    mov x1, 285
+    mov x2, 60
+    mov x3, 40
+    mov x4, 5
+    bl rectangulo
+
+    mov x2, 100
+    bl rectangulo
+
+    mov x2, 60
+    mov x3, 5
+    mov x4, 40
+    bl rectangulo
+    // FIN C
+
+    // INICIO 2
+    mov x1, 365
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 345
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+    // FIN 2
+
+    // INICIO 0
+    mov x1, 375
+    mov x2, 60
+    mov x3, 25
+    mov x4, 5
+    movz x10, 0xFFFF, lsl 0      
+    movk x10, 0xFFFF, lsl 16 
+    bl rectangulo
+
+    mov x2, 100 
+    bl rectangulo
+
+    mov x1, 375
+    mov x2, 60
+    mov x3, 5
+    mov x4, 45
+    bl rectangulo
+
+    mov x1, 400
+    bl rectangulo
+    // FIN 0
+
+    // INICIO 2
+    mov x1, 430
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 410
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+    // FIN 2
+
+    // INICIO 5
+    mov x1, 440
+    mov x2, 60
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 460
+    mov x2, 80
+    mov x3, 5
+    mov x4, 20
+    bl rectangulo
+
+    mov x1, 440
+    mov x2, 80
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 445
+    mov x2, 60
+    mov x3, 20
+    mov x4, 5
+    bl rectangulo
+
+    mov x1, 440
+    mov x2, 100
+    mov x3, 25
+    mov x4, 5
+    bl rectangulo
+    // FIN 5
+
+    ldur x21, [sp]
     ldur lr, [sp, #8]
     add sp, sp, #16
     br lr
-*/
-// ------------------- SUBRUTINA RECTANGULO -------------------
-/*
-
-// Dibuja un rectángulo de ancho x3 y alto x4 en (x1, x2) con color w10
-    // x0 = framebuffer base
-    // x1 = esquina superior izquierda x
-    // x2 = esquina superior izquierda y
-    // x3 = ancho
-    // x4 = alto
-    // w10 = color
-rectangulo:
-    mov x5, 0                  // x5 = fila actual
-rect_filas:
-    cmp x5, x4
-    b.ge fin_rect
-
-    mov x6, 0                  // x6 = columna actual
-rect_columnas:
-    cmp x6, x3
-    b.ge fin_rect_col
-
-    // Calcula dirección del pixel actual
-    add x7, x2, x5
-    mov x8, SCREEN_WIDTH
-    mul x9, x7, x8
-    add x9, x9, x1
-    add x9, x9, x6
-    lsl x9, x9, 2
-    add x11, x0, x9
-
-    stur w10, [x11]
-
-    add x6, x6, 1
-    b rect_columnas
-fin_rect_col:
-    add x5, x5, 1
-    b rect_filas
-fin_rect:
-    ret
-
-// ------------------- SUBRUTINA TRIANGULO IZQ -------------------
-// Dibuja un triángulo rectángulo con cateto izquierdo en (x1, x2), tamaño x3, color w10
-    // x0 = framebuffer base
-    // x1 = x inicial (esquina superior izquierda)
-    // x2 = y inicial (esquina superior izquierda)
-    // x3 = tamaño base/altura (en píxeles)
-    // w10 = color
-triangulo_izq:
-    mov x4, 0                  // x4 = fila actual
-triang_izq_filas:
-    cmp x4, x3
-    b.ge fin_triang_izq
-
-    mov x5, 0                  // x5 = columna actual
-triang_izq_columnas:
-    cmp x5, x4                 // Solo hasta la diagonal
-    b.gt fin_triang_izq_col
-
-    // Calcula dirección del pixel actual
-    add x6, x2, x4
-    mov x7, SCREEN_WIDTH
-    mul x8, x6, x7
-    add x8, x8, x1
-    add x8, x8, x5
-    lsl x8, x8, 2
-    add x9, x0, x8
-
-    stur w10, [x9]
-
-    add x5, x5, 1
-    b triang_izq_columnas
-fin_triang_izq_col:
-    add x4, x4, 1
-    b triang_izq_filas
-fin_triang_izq:
-    ret
-
-// ------------------- SUBRUTINA TRIANGULO DER -------------------
-// Dibuja un triángulo rectángulo con cateto derecho en (x1, x2), tamaño x3, color w10
-    // x0 = framebuffer base
-    // x1 = x inicial (esquina superior derecha de la base)
-    // x2 = y inicial (esquina superior)
-    // x3 = tamaño base/altura (en píxeles)
-    // w10 = color
-triangulo_der:
-    mov x4, 0
-triang_der_filas:
-    cmp x4, x3
-    b.ge fin_triang_der
-
-    mov x5, 0
-triang_der_columnas:
-    cmp x5, x4
-    b.gt fin_triang_der_col
-
-    // Calcula dirección del pixel actual
-    add x6, x2, x4
-    mov x7, SCREEN_WIDTH
-    mul x8, x6, x7
-    add x8, x8, x1
-    sub x9, x3, x5
-    sub x9, x9, 1
-    add x8, x8, x9
-    lsl x8, x8, 2
-    add x11, x0, x8
-
-    stur w10, [x11]
-
-    add x5, x5, 1
-    b triang_der_columnas
-fin_triang_der_col:
-    add x4, x4, 1
-    b triang_der_filas
-fin_triang_der:
-    ret
-
+  
+  
 // ------------------- SUBRUTINA TRAPEZOIDE -------------------
-// Dibuja un trapecio entre dos bases horizontales (x3 abajo, x4 arriba), altura x5, color w10
-    // x0 = framebuffer base
-    // x1 = x inicial base inferior (abajo)
-    // x2 = y inicial base inferior (abajo)
-    // x3 = ancho base inferior
-    // x4 = ancho base superior
-    // x5 = altura (en píxeles)
-    // w10 = color
 trapezoide:
-    mov x6, 0                  // x6 = fila actual
+    sub sp, sp, #16
+    stur lr, [sp, #8]
+    stur x30, [sp] // si usás registros temporales importantes, podés guardar más
+
+    mov x6, 0
 trap_filas:
     cmp x6, x5
     b.ge fin_trap
 
-    // Interpolación lineal para el ancho de la fila
     sub x7, x4, x3
     mul x8, x7, x6
     sdiv x8, x8, x5
@@ -223,24 +233,22 @@ fin_trap_col:
     add x6, x6, 1
     b trap_filas
 fin_trap:
-    ret
+    ldur x30, [sp]
+    ldur lr, [sp, #8]
+    add sp, sp, #16
+    br lr
 
 // ------------------- SUBRUTINA TRAPEZOIDE CENTRO -------------------
-// Dibuja un trapecio centrado en x1, desde y2, con anchos x3 y x4, altura x5, color w10
-    // x0 = framebuffer base
-    // x1 = x_centro_arriba
-    // x2 = y_arriba
-    // x3 = ancho_arriba
-    // x4 = ancho_abajo
-    // x5 = altura
-    // w10 = color
 trapezoide_centro:
+    sub sp, sp, #16
+    stur lr, [sp, #8]
+    stur x30, [sp]
+
     mov x6, 0
 trap_centro_filas:
     cmp x6, x5
     b.ge fin_trap_centro
 
-    // Interpolación lineal para el ancho de la fila
     sub x7, x4, x3
     mul x8, x7, x6
     sdiv x8, x8, x5
@@ -270,9 +278,41 @@ fin_trap_centro_col:
     add x6, x6, 1
     b trap_centro_filas
 fin_trap_centro:
-    ret
+    ldur x30, [sp]
+    ldur lr, [sp, #8]
+    add sp, sp, #16
+    br lr
+
+diagonal:
+    sub sp, sp, #16
+    stur lr, [sp, #8]
+    stur x30, [sp]
+
+    mov x4, 0
+diagonal_loop:
+    cmp x4, x3
+    b.ge fin_diagonal
+
+    add x5, x1, x4
+    add x6, x2, x4
+
+    mov x7, SCREEN_WIDTH
+    mul x8, x6, x7
+    add x8, x8, x5
+    lsl x8, x8, 2
+    add x9, x0, x8
+
+    str w10, [x9]
+
+    add x4, x4, 1
+    b diagonal_loop
+fin_diagonal:
+    ldur x30, [sp]
+    ldur lr, [sp, #8]
+    add sp, sp, #16
+    br lr
 
 .endif
-*/
+
 
 
