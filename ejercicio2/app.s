@@ -1,6 +1,6 @@
 .include "datos.s" 
 .include "Graficos.s"
-// .include "funciones.s"
+
 
 
 .globl main
@@ -8,7 +8,7 @@
 .globl main
 main:
     mov x20, x0       // dirección framebuffer
-
+    bl pintar_cielo
     // Configuración inicial
     mov x21, 250      // offset líneas horizontales
     mov x15, 240      // offset cuadrados
@@ -36,16 +36,9 @@ borrar_loop:
     cmp x27, 480
     b.lt borrar_loop
 
-   // bl pintar_cielo
+   
  
- /*//dibujar el sol
-    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
-    mov x3, #170  // Centro en y, x3
-    mov x4, #70 // Posicion inicial offset x4
-    ldr w21, amarillo_anaranjado
-    mov w1, w21 // Paso el color como parametro
-    bl dibujar_circulo
-*/
+ 
     //  Fondo base (verde)
     mov x1, 1
     mov x2, 220
@@ -64,7 +57,7 @@ borrar_loop:
  
     bl rectangulo
     
-
+    
 
 // Banquinas
     mov x1, 185
@@ -76,7 +69,8 @@ borrar_loop:
     bl rectangulo
     mov x1, 425
     bl rectangulo
-    //  Ruta central (gris)
+    //bl dibujar_ruta  
+     //  Ruta central (gris)
     mov x1, 215
     mov x2, 210
     mov x3, 210
@@ -95,7 +89,16 @@ borrar_loop:
     bl rectangulo
     mov x1, 500
     bl rectangulo
-    
+
+//dibujar el sol
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #60 // Posicion inicial offset x4
+    ldr w15, amarillo_anaranjado
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+// 
+ 
     // Cartel
     mov x1, 140
     mov x2, 40
@@ -290,6 +293,28 @@ borrar_loop:
 
 //FIN 5
 
+//  Líneas verdes horizontales
+    mov x24, x21
+    mov x19, 42       // separación
+    mov x28, 5        // grosor
+lineas_horizontales:
+    cmp x24, 480
+    b.ge fin_lineas_h
+
+    mov x1, 455
+    mov x2, x24
+    mov x3, 370
+    mov x4, x28
+    movz x10, 0x8B22, lsl 0
+    movk x10, 0xFF22, lsl 16
+    bl rectangulo
+
+    
+
+    add x24, x24, x19
+    b lineas_horizontales
+fin_lineas_h:
+
 // Dibujar nuevos cuadrados
     mov x26, 0
     mov x27, x21
@@ -304,10 +329,25 @@ cuadrado_loop:
     add x27, x27, x22
     cmp x27, 480
     b.lt cuadrado_loop
-      
+
+
+
 bl dibujar_auto
 
-   
+
+// Actualizar posiciones
+    add x21, x21, 5
+    cmp x21, 260
+    b.lt skip_reset_lineas
+    sub x21, x21, x22
+skip_reset_lineas:
+
+    add x15, x15, 5
+    cmp x15, 240
+    b.lt skip_reset_cuadros
+    sub x15, x15, x22
+skip_reset_cuadros:
+
 // Delay
     mov x27, 0x2700000
 delay_loop:
@@ -315,6 +355,10 @@ delay_loop:
     b.ne delay_loop
 
     b animacion_loop
+
+
+   
+
 
    
 

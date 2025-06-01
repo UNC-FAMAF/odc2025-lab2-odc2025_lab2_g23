@@ -36,29 +36,6 @@ linea_vertical:
 
         br lr 
 
-
-//  Líneas verdes horizontales
-    mov x24, x21
-    mov x19, 42       // separación
-    mov x28, 5        // grosor
-lineas_horizontales:
-    cmp x24, 480
-    b.ge fin_lineas_h
-
-    mov x1, 455
-    mov x2, x24
-    mov x3, 370
-    mov x4, x28
-    movz x10, 0x8B22, lsl 0
-    movk x10, 0xFF22, lsl 16
-    bl rectangulo
-
-    
-
-    add x24, x24, x19
-    b lineas_horizontales
-fin_lineas_h:
-
 // ------------------- SUBRUTINA TRIÁNGULO 1-------------------
 triangulo_izq:
     // x0 = framebuffer base
@@ -377,7 +354,7 @@ pintar_cielo:
     ldur lr, [sp] // Recupero el puntero de retorno del stack
     add sp, sp, #8 
     br lr
-/* 
+ 
 pintar_piso:
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
@@ -395,8 +372,8 @@ pintar_piso:
     ldur lr, [sp] // Recupero el puntero de retorno del stack
     add sp, sp, #8 
     br lr
-*/
-/* 
+
+ 
 dibujar_sol:    
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
@@ -460,7 +437,7 @@ end_ruta:
     ldur x3, [sp]
     add sp, sp, #16
     br lr
-*/ 
+ 
 
 /* 
 dibujar_nube:
@@ -488,6 +465,7 @@ dibujar_auto:
  sub sp, sp, #16
  stur lr, [sp, #8]
  stur x21, [sp] // si se modifica
+
 
  
 // --- Carrocería principal ---
@@ -668,19 +646,7 @@ dibujar_auto:
     movk x10, 0x0000, lsl 16
     bl rectangulo
 
- // Actualizar posiciones
-    add x21, x21, 5
-    cmp x21, 260
-    b.lt skip_reset_lineas
-    sub x21, x21, x22
-skip_reset_lineas:
 
-    add x15, x15, 5
-    cmp x15, 240
-    b.lt skip_reset_cuadros
-    sub x15, x15, x22
-skip_reset_cuadros:
- 
     ldur x21, [sp]
     ldur lr, [sp, #8]
     add sp, sp, #16
