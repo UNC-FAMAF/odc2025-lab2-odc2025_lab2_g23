@@ -2,14 +2,45 @@
 .include "Graficos.s"
 .include "funciones.s"
 
-
-
 .globl main
 
 .globl main
 main:
     mov x20, x0       // dirección framebuffer
+    
     bl pintar_cielo
+    
+    mov x2, 100
+    mov x3, 100
+    mov x4, 20
+    bl dibujar_nube
+
+
+    mov x2, 500
+    mov x3, 100
+    mov x4, 20
+    bl dibujar_nube
+
+    mov x2, 250 
+    mov x3, 150 
+    mov x4, 20
+    bl dibujar_nube
+
+    //dibujar el sol
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #60 // Posicion inicial offset x4
+    ldr w15, amarillo_anaranjado
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #40 // Posicion inicial offset x4
+    ldr w15, amarillo
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+    
     // Configuración inicial
     mov x21, 250      // offset líneas horizontales
     mov x15, 240      // offset cuadrados
@@ -57,9 +88,6 @@ borrar_loop:
     movk x10, 0x0042, lsl 16
  
     bl rectangulo
-    
-    
-
 // Banquinas
     mov x1, 185
     mov x2, 210
@@ -91,21 +119,9 @@ borrar_loop:
     mov x1, 500
     bl rectangulo
 
-//dibujar el sol
-    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
-    mov x3, #150  // Centro en y, x3
-    mov x4, #60 // Posicion inicial offset x4
-    ldr w15, amarillo_anaranjado
-    mov w1, w15 // Paso el color como parametro
-    bl dibujar_circulo
 
-    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
-    mov x3, #150  // Centro en y, x3
-    mov x4, #40 // Posicion inicial offset x4
-    ldr w15, amarillo
-    mov w1, w15 // Paso el color como parametro
-    bl dibujar_circulo
 
+    
 // 
  
     // Cartel
@@ -180,6 +196,8 @@ delay_loop:
     b.ne delay_loop
 
     b animacion_loop
+
+
 
 
    

@@ -2,7 +2,6 @@
     .equ funciones_s, 0
     .include "datos.s"
     .include "Graficos.s"
-
 palabra:
     sub sp, sp, #16
     stur lr, [sp, #8]

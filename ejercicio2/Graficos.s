@@ -1,10 +1,7 @@
 .ifndef graficos_s
 .equ graficos_s, 0
-
 .include "datos.s"
-
 //En este archivo estan todas las funciones que dibujan la imagen
-
 pintar_por_pixel:
         cmp x2, SCREEN_WIDTH // Chequeo si el x es valido
         b.hs return_pintar_pixel
@@ -280,14 +277,11 @@ triangulo:
         add sp, sp, #16
 
         br lr 
-
-
-
  
 pintar_cielo: 
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
-    ldr w23, morado
+    ldr w23, celeste
     mov w1, w23   
     mov x2, 0 
     mov x3, 0 
@@ -387,28 +381,26 @@ end_ruta:
     br lr
  
 
-/* 
+
 dibujar_nube:
     sub sp, sp, #8 // Guardo el puntero de retorno en el stack
     stur lr, [sp]
-    mov x2, x19
-    mov x3, x21
-    mov x4, x18
+    ldr w17, blanco
+    mov w1, w17 
     bl dibujar_circulo
+    
     
     add x2, x2, 15
     add x3, x3, 20
-    mov x4, x18
     bl dibujar_circulo
     
     sub x2, x2, 30
-    mov x4, x18
     bl dibujar_circulo
     
     ldur lr, [sp] // Recupero el puntero de retorno del stack
     add sp, sp, #8 
     br lr
-   */ 
+    
 dibujar_auto:
  sub sp, sp, #16
  stur lr, [sp, #8]
