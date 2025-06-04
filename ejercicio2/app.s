@@ -9,7 +9,14 @@ main:
     mov x20, x0       // dirección framebuffer
     
     bl pintar_cielo
-    
+    //dibujar el sol
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #60 // Posicion inicial offset x4
+    ldr w15, amarillo_anaranjado
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+
     mov x2, 100
     mov x3, 100
     mov x4, 20
@@ -26,13 +33,7 @@ main:
     mov x4, 20
     bl dibujar_nube
 
-    //dibujar el sol
-    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
-    mov x3, #150  // Centro en y, x3
-    mov x4, #60 // Posicion inicial offset x4
-    ldr w15, amarillo_anaranjado
-    mov w1, w15 // Paso el color como parametro
-    bl dibujar_circulo
+    
 
     mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
     mov x3, #150  // Centro en y, x3
