@@ -34,7 +34,27 @@ main:
     add x27, x27, x22
     cmp x27, 480
 
+    //Nubes
 
+    mov x2, 50  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
+
+    mov x2, 430  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
+
+    mov x2, 590  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
+
+    mov x2, 500  
+    mov x3, 130
+    mov x4, 30                                                              
+    bl dibujar_nube
 
 
     //  Fondo base (verde)
