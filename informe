@@ -16,7 +16,7 @@ Se enfoca en la modularidad del código y en la actualización dinámica de grá
 
 
 Justificación instrucciones ARMv8: 
+Se utilizó la instrucción MOV para representar la operación de copiar el contenido de un registro a otro. En el contexto de LEGv8, esta operación puede implementarse utilizando instrucciones equivalentes como:
+ADD Xd, XZR, Xm – para copiar el valor de Xm a Xd
 Usamos instrucciones ARMv8 porque son las que se usan para programar a bajo nivel en la arquitectura de los sistemas embebidos, como los que simulamos en este trabajo. Son instrucciones simples que nos permiten mover datos, hacer operaciones, trabajar con memoria y controlar el flujo del programa.
-
 Gracias a instrucciones como MOV, LDR, STR, ADD, B, y BL, pudimos dibujar en pantalla, llamar funciones que creamos y manejar bien los gráficos. Todo esto nos ayudó a entender cómo funciona una computadora desde adentro, controlando cosas directamente con el procesador.
-
