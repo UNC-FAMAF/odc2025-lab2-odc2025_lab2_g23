@@ -3,6 +3,7 @@
 .include "funciones.s"
 
 .globl main
+.equ DELAY_ANIMACION, 0x2700000 //Delay modificable para animación de pasto
 
 .globl main
 main:
@@ -53,7 +54,7 @@ main:
 
  
 animacion_loop:
-    // 🧽 Borrar cuadrados anteriores
+    // Borrar cuadrados anteriores
     mov x26, 0
     mov x27, x21
 borrar_loop:
@@ -191,7 +192,7 @@ skip_reset_lineas:
 skip_reset_cuadros:
 
 // Delay
-    mov x27, 0x2700000
+    mov x27, DELAY_ANIMACION
 delay_loop:
     subs x27, x27, 1
     b.ne delay_loop

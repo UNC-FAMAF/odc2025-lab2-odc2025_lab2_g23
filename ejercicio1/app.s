@@ -20,7 +20,7 @@ main:
 
 
 
-    // 🧽 Borrar cuadrados anteriores
+    // Borrar cuadrados anteriores
     mov x26, 0
     mov x27, x21
     mov x0, x20
