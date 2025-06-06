@@ -54,24 +54,28 @@ main:
 
  
 animacion_loop:
-    // Borrar cuadrados anteriores
+    // --- Borrar cuadrados anteriores ---
+    // Recorre todas las posiciones donde hay cuadrados y los "borra"
+    // pintando encima con el color del fondo de la ruta.
     mov x26, 0
     mov x27, x21
 borrar_loop:
-    mov x0, x20
-    mov x1, 320 - 5
-    mov x2, x27
-    mov x9, x23
+    mov x0, x20                      //Framebuffer base
+    mov x1, 320 - 5                  // Posición x fija de los cuadrados
+    mov x2, x27                     // Posición y de los cuadrados             
+    mov x9, x23                     // Lado del cuadrado                                 
     movz x10, 0x3030, lsl 0         // gris ruta
     movk x10, 0xFF30, lsl 16
-    bl cuadrado
+    bl cuadrado                     // Dibuja el cuadrado "borrador"
 
-    add x27, x27, x22
-    cmp x27, 480
-    b.lt borrar_loop
+    add x27, x27, x22       // Incrementa la posición y para el siguiente cuadrado
+    cmp x27, 480            // Compara si se ha llegado al final de la pantalla
+    b.lt borrar_loop        // Si no, repite el bucle
 
    
- 
+    // --- Redibujar fondo y elementos estáticos ---
+    // Se dibuja el fondo, banquinas, ruta, columnas, cartel, etc.
+    // Esto asegura que la escena se repinta en cada frame.
  
     //  Fondo base (verde)
     mov x1, 1
@@ -122,9 +126,6 @@ borrar_loop:
     bl rectangulo
 
 
-
-    
-// 
  
     // Cartel
     mov x1, 140
@@ -136,7 +137,10 @@ borrar_loop:
     bl rectangulo
     
     bl palabra 
-//  Líneas verdes horizontales
+
+// --- Dibujar líneas verdes horizontales ---
+    // Se dibujan varias líneas verdes horizontales para el efecto visual.
+    // Se usa un bucle para posicionarlas con separación fija.
     mov x24, x21
     mov x19, 42       // separación
     mov x28, 5        // grosor
@@ -158,7 +162,8 @@ lineas_horizontales:
     b lineas_horizontales
 fin_lineas_h:
 
-// Dibujar nuevos cuadrados
+    // --- Dibujar nuevos cuadrados en sus posiciones actualizadas ---
+    // Se dibujan los cuadrados en sus nuevas posiciones para la animación.
     mov x26, 0
     mov x27, x21
 cuadrado_loop:
@@ -166,7 +171,7 @@ cuadrado_loop:
     mov x1, 320 - 5
     mov x2, x27
     mov x9, x23
-    mov x10, x25
+    mov x10, x25       //Color blanco
     bl cuadrado
     
     add x27, x27, x22
@@ -178,7 +183,9 @@ cuadrado_loop:
 bl dibujar_auto
 
 
-// Actualizar posiciones
+ // --- Actualizar posiciones para la próxima iteración ---
+    // Se incrementan los offsets para las líneas y los cuadrados,
+    // creando el efecto de movimiento.
     add x21, x21, 5
     cmp x21, 260
     b.lt skip_reset_lineas
@@ -191,12 +198,13 @@ skip_reset_lineas:
     sub x15, x15, x22
 skip_reset_cuadros:
 
-// Delay
+    // --- Delay para controlar la velocidad de la animación ---
+    // Este bucle vacío introduce una pausa para que la animación sea visible.
     mov x27, DELAY_ANIMACION
 delay_loop:
     subs x27, x27, 1
     b.ne delay_loop
-
+  // --- Volver al inicio del bucle para el siguiente frame ---
     b animacion_loop
 
 
