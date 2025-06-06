@@ -1,53 +1,207 @@
-	.equ SCREEN_WIDTH, 		640
-	.equ SCREEN_HEIGH, 		480
-	.equ BITS_PER_PIXEL,  	32
+.include "datos.s"
+.include "Graficos.s"
+.include "funciones.s"
 
-	.equ GPIO_BASE,      0x3f200000
-	.equ GPIO_GPFSEL0,   0x00
-	.equ GPIO_GPLEV0,    0x34
 
-	.globl main
 
+.globl main
+
+.globl main
 main:
-	// x0 contiene la direccion base del framebuffer
- 	mov x20, x0	// Guarda la dirección base del framebuffer en x20
-	//---------------- CODE HERE ------------------------------------
+    mov x20, x0       // dirección framebuffer
+    bl pintar_cielo
+    // Configuración inicial
+    mov x21, 250      // offset líneas horizontales
+    mov x15, 240      // offset cuadrados
+    mov x22, 50       // separación entre cuadrados
+    mov x23, 10       // lado del cuadrado
+    movz x25, 0xFFFF, lsl 0
+    movk x25, 0x00FF, lsl 16  // blanco
 
-	movz x10, 0xC7, lsl 16
-	movk x10, 0x1585, lsl 00
 
-	mov x2, SCREEN_HEIGH         // Y Size
-loop1:
-	mov x1, SCREEN_WIDTH         // X Size
-loop0:
-	stur w10,[x0]  // Colorear el pixel N
-	add x0,x0,4	   // Siguiente pixel
-	sub x1,x1,1	   // Decrementar contador X
-	cbnz x1,loop0  // Si no terminó la fila, salto
-	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop1  // Si no es la última fila, salto
 
-	// Ejemplo de uso de gpios
-	mov x9, GPIO_BASE
+    // 🧽 Borrar cuadrados anteriores
+    mov x26, 0
+    mov x27, x21
+    mov x0, x20
+    mov x1, 320 - 5
+    mov x2, x27
+    mov x9, x23
+    movz x10, 0x3030, lsl 0         // gris ruta
+    movk x10, 0xFF30, lsl 16
+    bl cuadrado
 
-	// Atención: se utilizan registros w porque la documentación de broadcom
-	// indica que los registros que estamos leyendo y escribiendo son de 32 bits
+    add x27, x27, x22
+    cmp x27, 480
 
-	// Setea gpios 0 - 9 como lectura
-	str wzr, [x9, GPIO_GPFSEL0]
+    //Nubes
 
-	// Lee el estado de los GPIO 0 - 31
-	ldr w10, [x9, GPIO_GPLEV0]
+    mov x2, 50  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
 
-	// And bit a bit mantiene el resultado del bit 2 en w10
-	and w11, w10, 0b10
+    mov x2, 430  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
 
-	// w11 será 1 si había un 1 en la posición 2 de w10, si no será 0
-	// efectivamente, su valor representará si GPIO 2 está activo
-	lsr w11, w11, 1
+    mov x2, 590  
+    mov x3, 50
+    mov x4, 30                                                              
+    bl dibujar_nube
 
-	//---------------------------------------------------------------
-	// Infinite Loop
+    mov x2, 500  
+    mov x3, 130
+    mov x4, 30                                                              
+    bl dibujar_nube
 
-InfLoop:
-	b InfLoop
+
+    //  Fondo base (verde)
+    mov x1, 1
+    mov x2, 220
+    mov x3, 185
+    mov x4, 260
+    movz x10, 0xC040, lsl 0
+    movk x10, 0x0042, lsl 16
+    bl rectangulo
+
+    mov x1, 455
+    mov x2, 220
+    mov x3, 185
+    mov x4, 260
+    movz x10, 0xC040, lsl 0
+    movk x10, 0x0042, lsl 16
+
+    bl rectangulo
+
+
+
+// Banquinas
+    mov x1, 185
+    mov x2, 210
+    mov x3, 30
+    mov x4, 270
+    movz x10, 0x4040, lsl 0
+    movk x10, 0xFF40, lsl 16
+    bl rectangulo
+    mov x1, 425
+    bl rectangulo
+    //bl dibujar_ruta
+     //  Ruta central (gris)
+    mov x1, 215
+    mov x2, 210
+    mov x3, 210
+    mov x4, 270
+    movz x10, 0x3030, lsl 0
+    movk x10, 0xFF30, lsl 16
+    bl rectangulo
+
+    // Columnas
+    mov x1, 130
+    mov x2, 40
+    mov x3, 10
+    mov x4, 180
+    movz x10, 0x8080, lsl 0
+    movk x10, 0x8080, lsl 16
+    bl rectangulo
+    mov x1, 500
+    bl rectangulo
+
+//dibujar el sol
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #60 // Posicion inicial offset x4
+    ldr w15, amarillo_anaranjado
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+
+    mov x2, SCREEN_WIDTH - 320 // Centro en x, x2
+    mov x3, #150  // Centro en y, x3
+    mov x4, #40 // Posicion inicial offset x4
+    ldr w15, amarillo
+    mov w1, w15 // Paso el color como parametro
+    bl dibujar_circulo
+
+//
+
+    // Cartel
+    mov x1, 140
+    mov x2, 40
+    mov x3, 360
+    mov x4, 90
+    movz x10, 0x7A3D, lsl 0
+    movk x10, 0xFF00, lsl 16
+    bl rectangulo
+
+    bl palabra
+//  Líneas verdes horizontales
+    mov x24, x21
+    mov x19, 42       // separación
+    mov x28, 5        // grosor
+lineas_horizontales:
+    cmp x24, 480
+    b.ge fin_lineas_h
+
+    mov x1, 455
+    mov x2, x24
+    mov x3, 370
+    mov x4, x28
+    movz x10, 0x8B22, lsl 0
+    movk x10, 0xFF22, lsl 16
+    bl rectangulo
+
+
+
+    add x24, x24, x19
+    b lineas_horizontales
+fin_lineas_h:
+
+// Dibujar nuevos cuadrados
+    mov x26, 0
+    mov x27, x21
+cuadrado_loop:
+    mov x0, x20
+    mov x1, 320 - 5
+    mov x2, x27
+    mov x9, x23
+    mov x10, x25
+    bl cuadrado
+
+    add x27, x27, x22
+    cmp x27, 480
+    b.lt cuadrado_loop
+
+
+
+bl dibujar_auto
+
+
+// Actualizar posiciones
+    add x21, x21, 5
+    cmp x21, 260
+    b.lt skip_reset_lineas
+    sub x21, x21, x22
+skip_reset_lineas:
+
+    add x15, x15, 5
+    cmp x15, 240
+    b.lt skip_reset_cuadros
+    sub x15, x15, x22
+skip_reset_cuadros:
+
+// Delay
+    mov x27, 0x2700000
+delay_loop:
+    subs x27, x27, 1
+    b.ne delay_loop
+
+
+
+
+
+
+
+
+
+    ret
